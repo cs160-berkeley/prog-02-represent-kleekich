@@ -95,12 +95,6 @@ public class CongressionalActivity extends Activity {
 
         }
 
-
-
-
-
-
-
         // Uses AsyncTask to create a task away from the main UI thread. This task takes a
         // URL string and uses it to create an HttpUrlConnection. Once the connection
         // has been established, the AsyncTask downloads the contents of the webpage as
@@ -273,6 +267,5 @@ public class CongressionalActivity extends Activity {
                     }
                 }
         );
-        
     }
 }
