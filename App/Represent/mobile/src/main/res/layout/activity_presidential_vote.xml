@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent" android:orientation="vertical"
+    android:weightSum="1">
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Back"
+        android:id="@+id/congressionalViewButton"
+         />
+
+    <TextView
+        android:layout_width="181dp"
+        android:layout_height="33dp"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="@string/voteViewTitle"
+        android:id="@+id/title"
+        android:layout_marginEnd="52dp" />
+    <TextView
+        android:layout_width="181dp"
+        android:layout_height="33dp"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:id="@+id/personATextView"
+        />
+    <TextView
+        android:layout_width="181dp"
+        android:layout_height="33dp"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:id="@+id/personBTextView"
+        android:layout_marginTop="67dp"
+     />
+    <TextView
+        android:layout_width="181dp"
+        android:layout_height="33dp"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:id="@+id/percentATextView"
+   />
+    <TextView
+        android:layout_width="181dp"
+        android:layout_height="33dp"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:id="@+id/percentBTextView"
+       />
+    <TextView
+        android:layout_width="181dp"
+        android:layout_height="33dp"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:id="@+id/stateTextView"
+        />
+    <TextView
+        android:layout_width="181dp"
+        android:layout_height="33dp"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:id="@+id/districtTextView"
+         />
+
+
+
+
+
+
+</LinearLayout>
