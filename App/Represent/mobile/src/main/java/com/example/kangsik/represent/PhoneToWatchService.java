@@ -22,8 +22,6 @@ public class PhoneToWatchService extends Service {
     public void onCreate() {
         super.onCreate();
 
-
-
         //initialize the googleAPIClient for message passing
         mApiClient = new GoogleApiClient.Builder( this )
                 .addApi( Wearable.API )
@@ -51,6 +49,7 @@ public class PhoneToWatchService extends Service {
         // which was passed over when we called startService
         Bundle extras = intent.getExtras();
         final String location = extras.getString("LOCATION");
+        final String location = extras.getString("LOCATION");
 
         // Send the message with the cat name
         new Thread(new Runnable() {
@@ -60,6 +59,7 @@ public class PhoneToWatchService extends Service {
                 mApiClient.connect();
                 //now that you're connected, send a massage with the cat name
                 sendMessage("/" + location, location);
+
             }
         }).start();
 

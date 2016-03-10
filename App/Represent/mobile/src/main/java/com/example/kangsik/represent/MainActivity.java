@@ -14,6 +14,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.crashlytics.android.Crashlytics;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -60,7 +61,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         TwitterAuthConfig authConfig = new TwitterAuthConfig(TWITTER_KEY, TWITTER_SECRET);
-        Fabric.with(this, new Twitter(authConfig));
+        Fabric.with(this, new Twitter(authConfig), new Crashlytics());
         setContentView(R.layout.activity_main);
         Log.i(TAG, "onCreate");
 
@@ -138,7 +139,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
     public void sendMessage(View view){
         Intent congressionalIntent = new Intent(this, CongressionalActivity.class);
 
-        Intent watchIntent = new Intent(getBaseContext(), PhoneToWatchService.class);
+        //Intent watchIntent = new Intent(getBaseContext(), PhoneToWatchService.class);
         editTextZipCode = (EditText) findViewById(R.id.zipCodeInput);
         String zipCodeInputString = editTextZipCode.getText().toString();
 
@@ -153,7 +154,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
                 congressionalIntent.putExtra("LONGITUDE", "");
 
                 //For Watch
-                watchIntent.putExtra("LOCATION", zipCodeInputString);
+                //watchIntent.putExtra("LOCATION", zipCodeInputString);
                 break;
             case R.id.currentLocationButton:
                 mLastLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
@@ -168,7 +169,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
                 congressionalIntent.putExtra("LONGITUDE",Double.toString(longitude) );
 
                 //For Watch
-                watchIntent.putExtra("LOCATION", "94704");
+                //watchIntent.putExtra("LOCATION", "94704");
                 break;
         }
         startActivity(congressionalIntent);

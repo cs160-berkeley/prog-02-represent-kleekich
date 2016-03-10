@@ -81,15 +81,13 @@ public class CongressionalActivity extends Activity {
         longitude = extras.getString("LONGITUDE");
         latitude = extras.getString("LATITUDE");
         if(zipcode.equals("-1")){
-
             textViewSearchMode.setText("Current Location");
-
+            selectedLocation = "Current Location";
             //BUILD URL
             stringUrl = "http://congress.api.sunlightfoundation.com/legislators/locate?latitude=" + latitude + "&longitude="+ longitude +"&apikey=" + SUNLIGHT_API_KEY;
         }else{
-
             textViewSearchMode.setText("ZIP: "+ zipcode);
-
+            selectedLocation = zipcode;
             //BUILD URL
             stringUrl = "http://congress.api.sunlightfoundation.com/legislators/locate?zip=" + zipcode + "&apikey=" + SUNLIGHT_API_KEY;
 
@@ -125,7 +123,9 @@ public class CongressionalActivity extends Activity {
 
                 //Array For myAdapter
                 ArrayList<Representative> reps = new ArrayList<Representative>();
-
+                //Watch Intent
+                Intent watchIntent = new Intent(getBaseContext(), PhoneToWatchService.class);
+                watchIntent.putExtra("LOCATION", selectedLocation);
                 try {
                     JSONObject jasonObject = new JSONObject(response);
                     JSONArray jsonArray = jasonObject.optJSONArray("results");
@@ -155,18 +155,25 @@ public class CongressionalActivity extends Activity {
                             default:
                                 party = "Independent";
                         }
+                        name = title + ". " + first_name + " " + last_name;
+                        String repString = "REP".concat(Integer.toString(i)).concat("_");
+                        watchIntent.putExtra(repString.concat("NAME"), name);
+                        watchIntent.putExtra(repString.concat("PARTY"), party);
+                        watchIntent.putExtra(repString.concat("EMAIL"), email);
+                        watchIntent.putExtra(repString.concat("WEBSITE"), website);
 
                         representative = new Representative(bid,first_name,last_name,party,title,email,website,endTerm,committee,recentBill,recentBillIntroducedOn, twitterId, tweet);
                         reps.add(representative);
                     }
+
+
+
                 } catch (JSONException e) {
                     // Appropriate error handling code
                     System.out.println("================");
                     System.out.println("JSON OBJECT ERROR!!");
                     System.out.println("================");
                 }
-
-
 
                 //FOR ADAPTER
                 repListView = (ListView) findViewById(R.id.listViewRepresentatives);
@@ -179,7 +186,7 @@ public class CongressionalActivity extends Activity {
                         Bundle extras = new Bundle();
                         Representative rep = (Representative) adapterView.getItemAtPosition(position);
                         bid = rep.bid;
-                        name = rep.title + ". " +rep.firstName+ " " + rep.lastName;
+                        name = rep.title + ". " + rep.firstName + " " + rep.lastName;
                         party = rep.party;
                         email = rep.email;
                         website = rep.website;
@@ -198,6 +205,11 @@ public class CongressionalActivity extends Activity {
                         startActivity(detail);
                     }
                 });
+                //FOR Watch
+                startService(watchIntent);
+
+
+
             }
 
 
@@ -267,5 +279,6 @@ public class CongressionalActivity extends Activity {
                     }
                 }
         );
+
     }
 }

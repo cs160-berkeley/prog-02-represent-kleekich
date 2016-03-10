@@ -14,7 +14,14 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.twitter.sdk.android.Twitter;
+import com.twitter.sdk.android.core.AppSession;
+import com.twitter.sdk.android.core.TwitterApiClient;
 import com.twitter.sdk.android.core.TwitterAuthConfig;
+import com.twitter.sdk.android.core.TwitterCore;
+import com.twitter.sdk.android.core.TwitterException;
+import com.twitter.sdk.android.core.TwitterSession;
+import com.twitter.sdk.android.core.models.Tweet;
+import com.twitter.sdk.android.core.models.User;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -25,8 +32,13 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.List;
 
 import io.fabric.sdk.android.Fabric;
+import retrofit.http.GET;
+import retrofit.http.Query;
+
+//import android.support.v7.app.AppCompatActivity;
 
 public class DetailActivity extends AppCompatActivity {
     //VIEWS
@@ -64,8 +76,89 @@ public class DetailActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
+        //TWITTER
+        TwitterCore.getInstance().logInGuest(new Callback<AppSession>() {
+            @Override
+            public void success(Result<AppSession> appSessionResult) {
+                AppSession session = appSessionResult.data;
+                TwitterApiClient twitterApiClient = TwitterCore.getInstance().getApiClient(session);
+                twitterApiClient.getStatusesService().userTimeline(null, "elonmusk", 10, null, null, false, false, false, true, new Callback<List<Tweet>>() {
+                    @Override
+                    public void success(Result<List<Tweet>> listResult) {
+                        for(Tweet tweet: listResult.data) {
+                            Log.d("fabricstuff", "result: " + tweet.text + "  " + tweet.createdAt);
+                        }
+                    }
+                    @Override
+                    public void failure(TwitterException e) {
+                        e.printStackTrace();
+                    }
+                });
+            }
+            @Override
+            public void failure(TwitterException e) {
+                e.printStackTrace();
+            }
+        });
+
+
+
+        class MyTwitterApiClient extends TwitterApiClient {
+            public MyTwitterApiClient(TwitterSession session) {
+                super(session);
+            }
+
+            public UsersService getUsersService() {
+                return getService(UsersService.class);
+            }
+        }
+
+        interface UsersService {
+            @GET("/1.1/users/show.json")
+            void show(@Query("user_id") Long userId,
+                      @Query("screen_name") String screenName,
+                      @Query("include_entities") Boolean includeEntities,
+                      Callback<User> cb);
+        }
+
+        new MyTwitterApiClient(session).getUsersService().show(12L, null, true,
+                new Callback<User>() {
+                    @Override
+                    public void success(Result<User> result) {
+                        Log.d("twittercommunity", "user's profile url is "
+                                + result.data.profileImageUrlHttps);
+                    }
+
+                    @Override
+                    public void failure(TwitterException exception) {
+                        Log.d("twittercommunity", "exception is " + exception);
+                    }
+                });
         TwitterAuthConfig authConfig = new TwitterAuthConfig(TWITTER_KEY, TWITTER_SECRET);
         Fabric.with(this, new Twitter(authConfig));
+
+        TwitterSession session =
+                Twitter.getSessionManager().getActiveSession();
+        Twitter.getApiClient(session).getAccountService()
+                .verifyCredentials(true, false, new Callback<User>() {
+
+
+                    @Override
+                    public void success(Result<User> userResult) {
+
+                        User user = userResult.data;
+                        twitterImage = user.profileImageUrl;
+
+                    }
+
+                    @Override
+                    public void failure(TwitterException e) {
+
+                    }
+
+                });
+
+
 
 
 
