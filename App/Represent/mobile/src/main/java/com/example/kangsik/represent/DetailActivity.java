@@ -13,6 +13,9 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.twitter.sdk.android.Twitter;
+import com.twitter.sdk.android.core.TwitterAuthConfig;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -22,6 +25,8 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+
+import io.fabric.sdk.android.Fabric;
 
 public class DetailActivity extends AppCompatActivity {
     //VIEWS
@@ -33,7 +38,6 @@ public class DetailActivity extends AppCompatActivity {
     TextView recentBillTextView;
     TextView emailTextView;
     TextView websiteTextView;
-    TextView tweetTextView;
     private Button buttonMain;
     private Button buttonCongressional;
 
@@ -53,12 +57,16 @@ public class DetailActivity extends AppCompatActivity {
     private String email;
     private String website;
     private String twitterId;
-
+    private static final String TWITTER_KEY = "kleekich@berkeley.edu";
+    private static final String TWITTER_SECRET = "Grant6312!";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
+        TwitterAuthConfig authConfig = new TwitterAuthConfig(TWITTER_KEY, TWITTER_SECRET);
+        Fabric.with(this, new Twitter(authConfig));
+
 
 
         //mainView Button/Back Button
@@ -196,7 +204,7 @@ public class DetailActivity extends AppCompatActivity {
         recentBillTextView = (TextView) findViewById(R.id.recentBillTextView);
         emailTextView = (TextView) findViewById(R.id.emailTextView);
         websiteTextView = (TextView) findViewById(R.id.websiteTextView);
-        tweetTextView = (TextView) findViewById(R.id.tweetTextView);
+
 
 
         imageView.setImageResource(R.drawable.slide);
@@ -205,7 +213,7 @@ public class DetailActivity extends AppCompatActivity {
         emailTextView.setText("Email: ".concat(email));
         websiteTextView.setText("Website: ".concat(website));
         endDateTextView.setText("End Date of Term: ".concat(endTerm));
-        tweetTextView.setText("Last Tweet: ");
+
 
 
     }

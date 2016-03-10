@@ -22,15 +22,17 @@ import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.wearable.Wearable;
 import com.twitter.sdk.android.Twitter;
 import com.twitter.sdk.android.core.TwitterAuthConfig;
-
 import io.fabric.sdk.android.Fabric;
 
 
 public class MainActivity extends AppCompatActivity implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, LocationListener{
 
     // Note: Your consumer key and secret should be obfuscated in your source code before shipping.
-    private static final String TWITTER_KEY = "kleekich";
-    private static final String TWITTER_SECRET = "Grant6312";
+    private static final String TWITTER_KEY = "kleekich@berkeley.edu";
+    private static final String TWITTER_SECRET = "Grant6312!";
+
+
+    // Note: Your consumer key and secret should be obfuscated in your source code before shipping.
     private final static int PLAY_SERVICE_RESOLUTION_REQUEST = 1000;
 
 
@@ -164,13 +166,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
                 congressionalIntent.putExtra("ZIPCODE", "-1");
                 congressionalIntent.putExtra("LATITUDE",Double.toString(latitude) );
                 congressionalIntent.putExtra("LONGITUDE",Double.toString(longitude) );
-                /*
-                Bundle extras = new Bundle();
-                extras.putString("ZIPCODE", "-1");
-                extras.putString("LATITUDE", Double.toString(latitude));
-                extras.putString("LONGITUDE", Double.toString(longitude));
-                congressionalIntent.putExtras(extras);
-                */
+
                 //For Watch
                 watchIntent.putExtra("LOCATION", "94704");
                 break;

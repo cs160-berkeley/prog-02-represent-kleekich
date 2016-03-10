@@ -40,13 +40,6 @@
             android:id="@+id/userInput" />
     </LinearLayout>
 
-    <TextView
-        android:layout_width="127dp"
-        android:layout_height="138dp"
-        android:text="New Text"
-        android:id="@+id/textViewResponse"
-        android:layout_gravity="center_horizontal" />
-
     <ListView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

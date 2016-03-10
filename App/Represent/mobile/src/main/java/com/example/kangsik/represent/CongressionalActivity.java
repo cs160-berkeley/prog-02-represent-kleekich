@@ -38,7 +38,7 @@ public class CongressionalActivity extends Activity {
     private String zipcode;
     private String longitude;
     private String latitude;
-    private Boolean useCurrentLocation;
+
     private String stringUrl;
 
     private final static String SUNLIGHT_API_KEY = "45a993c1ef534c45b4b15bfc6ead5422";
@@ -72,7 +72,7 @@ public class CongressionalActivity extends Activity {
         //GET VIEWS
         textViewSearchMode = (TextView) findViewById(R.id.userInput);
         textViewFoundBy = (TextView) findViewById(R.id.textViewFoundBy);
-        textViewResponse = (TextView) findViewById(R.id.textViewResponse);
+
 
         //GET INTENT
         Intent intent = getIntent();
@@ -81,13 +81,13 @@ public class CongressionalActivity extends Activity {
         longitude = extras.getString("LONGITUDE");
         latitude = extras.getString("LATITUDE");
         if(zipcode.equals("-1")){
-            useCurrentLocation = true;
+
             textViewSearchMode.setText("Current Location");
 
             //BUILD URL
             stringUrl = "http://congress.api.sunlightfoundation.com/legislators/locate?latitude=" + latitude + "&longitude="+ longitude +"&apikey=" + SUNLIGHT_API_KEY;
         }else{
-            useCurrentLocation = false;
+
             textViewSearchMode.setText("ZIP: "+ zipcode);
 
             //BUILD URL
@@ -121,7 +121,7 @@ public class CongressionalActivity extends Activity {
                     response = "THERE WAS AN ERROR";
                 }
                 Log.i("INFO", response);
-                textViewResponse.setText(response);
+
 
                 //Array For myAdapter
                 ArrayList<Representative> reps = new ArrayList<Representative>();
