@@ -49,6 +49,7 @@ public class CongressionalActivity extends Activity {
     private TextView textViewResponse;
 
     //FOR REPRESENTATIVE
+    private String name;
     private String bid;
     private String first_name;
     private String last_name;
@@ -177,45 +178,35 @@ public class CongressionalActivity extends Activity {
                 repListView = (ListView) findViewById(R.id.listViewRepresentatives);
                 repAdapter = new MyAdapter(getBaseContext(), reps);
                 repListView.setAdapter(repAdapter);
-
-
                 repListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override
                     public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
                         Intent detail = new Intent(cCtx, DetailActivity.class);
                         Bundle extras = new Bundle();
                         Representative rep = (Representative) adapterView.getItemAtPosition(position);
-                        String name = rep.firstName.concat(" ").concat(rep.lastName);
-                        String party = rep.party;
-                        String email = rep.email;
-                        String website = rep.website;
-                        String tweet = rep.tweet;
-                        String endDate = rep.endTerm;
-                        String committee = rep.committee;
-                        String recentBill = rep.recentBill;
+                        bid = rep.bid;
+                        name = rep.title + ". " +rep.firstName+ " " + rep.lastName;
+                        party = rep.party;
+                        email = rep.email;
+                        website = rep.website;
+                        endTerm = rep.endTerm;
+                        twitterId = rep.twitterId;
 
-
-
-                        extras.putString("name", name);
-                        extras.putString("party", party);
-                        extras.putString("email", email);
-                        extras.putString("website", website);
-                        extras.putString("tweet", tweet);
-                        extras.putString("endDate", endDate);
-                        extras.putString("committee", committee);
-                        extras.putString("recentBill", recentBill);
-
+                        extras.putString("BID", bid);
+                        extras.putString("NAME", name);
+                        extras.putString("PARTY", party);
+                        extras.putString("EMAIL", email);
+                        extras.putString("WEBSITE", website);
+                        extras.putString("END_TERM", endTerm);
+                        extras.putString("TWITTER_ID", tweet);
 
                         detail.putExtras(extras);
-
                         startActivity(detail);
-
                     }
                 });
-
-
-
             }
+
+
             // Given a URL, establishes an HttpUrlConnection and retrieves
             // the web page content as a InputStream, which it returns as
             // a string.
@@ -242,16 +233,6 @@ public class CongressionalActivity extends Activity {
                     return null;
                 }
             }
-           /*
-            // Reads an InputStream and converts it to a String.
-            public String readIt(InputStream stream, int len) throws IOException, UnsupportedEncodingException {
-                Reader reader = null;
-                reader = new InputStreamReader(stream, "UTF-8");
-                char[] buffer = new char[len];
-                reader.read(buffer);
-                return new String(buffer);
-            }
-            */
         }
 
         // When user clicks button, calls AsyncTask.
@@ -267,52 +248,6 @@ public class CongressionalActivity extends Activity {
         }
 
 
-
-/*
-        //dummy data
-        ArrayList<Representative> sens = new ArrayList<Representative>();
-        ArrayList<Representative> reps = new ArrayList<Representative>();
-
-        Representative r1 = new Representative("Bart", "Simpson", "Democrat", "Senator", "bart@gmail.com", "https://www.bart.com", "I love you!" ,"94704","03/16/2017","The Drinking Committee","Safe Drinking Act (01/16/ 2016)" );
-        Representative r3 = new Representative("Lisa", "Simpson", "Independent", "Representative", "lisa@gmail.com", "https://www.lisa.com", "I hate you" ,"94704","07/06/2017", "The Skateboard Committee", "Bill: Safe Boarding Act(02/17/ 2016)");
-        Representative r2 = new Representative("Homer", "Simpson", "Republican", "Senator", "homer@gmail.com", "https://www.homer.com", "I love you, too!" ,"94704","03/16/2017","The Drinking Committee","Safe Drinking Act (01/16/ 2016)");
-        Representative r4 = new Representative("Maggie", "Simpson", "Independent", "Senator", "meggie@gmail.com", "https://www.meggie.com", "dada" ,"11111", "07/06/2017", "The Skateboard Committee", "Bill: Safe Boarding Act(02/17/ 2016)");
-
-
-
-        reps.add(r1);
-        reps.add(r2);
-        reps.add(r4);
-        sens.add(r3);
-        sens.add(r2);
-        sens.add(r1);
-
-
-        //Top TextView changes and Location info by userinput for selecting representatives in the list
-        //Also change adapter data according to user input.
-
-        repListView = (ListView) findViewById(R.id.listViewRepresentatives);
-
-
-        if(useCurrentLocation){
-            //selectedLocation = "94704";
-            textViewSearchMode.setText("Current Location");
-            //for my adapter
-            repAdapter = new MyAdapter(this, reps);
-            repListView.setAdapter(repAdapter);
-
-        }else{
-            //selectedLocation = userInputMessage;
-            textViewSearchMode.setText("ZIP: "+zipcode);
-            repAdapter = new MyAdapter(this, sens);
-            repListView.setAdapter(repAdapter);
-
-        }
-
-
-
-
-*/
         //voteView Button
         Button voteViewButton = (Button) findViewById(R.id.voteViewButton);
 
@@ -338,18 +273,6 @@ public class CongressionalActivity extends Activity {
                     }
                 }
         );
-
-
-
-
-
-
-
-
-
-        //arrayListRepresentatatives = new ArrayList<String>();
-        //arrayAdapterRepresentatives = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, arrayListRepresentatives);
-        //ListView listViewRepresentatives = (ListView) findViewById(R.id.listViewRepresentatives);
-        //listViewRepresentatives.setAdapter(arrayAdapterRepresentatives);
+        
     }
 }
