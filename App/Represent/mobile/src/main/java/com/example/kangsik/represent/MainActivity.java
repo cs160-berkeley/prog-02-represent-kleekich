@@ -135,6 +135,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
 
     public void sendMessage(View view){
         Intent congressionalIntent = new Intent(this, CongressionalActivity.class);
+
         Intent watchIntent = new Intent(getBaseContext(), PhoneToWatchService.class);
         editTextZipCode = (EditText) findViewById(R.id.zipCodeInput);
         String zipCodeInputString = editTextZipCode.getText().toString();
@@ -146,6 +147,8 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
 
 
                 congressionalIntent.putExtra("ZIPCODE", zipCodeInputString);
+                congressionalIntent.putExtra("LATITUDE", "");
+                congressionalIntent.putExtra("LONGITUDE", "");
 
                 //For Watch
                 watchIntent.putExtra("LOCATION", zipCodeInputString);
@@ -157,21 +160,28 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
                 double longitude = mLastLocation.getLongitude();
 
                 textViewCurrentLocation.setText(latitude + ", " + longitude);
-                congressionalIntent.putExtra("LATITUDE", Double.toString(latitude));
-                congressionalIntent.putExtra("LONGITUDE", Double.toString(longitude));
 
-
+                congressionalIntent.putExtra("ZIPCODE", "-1");
+                congressionalIntent.putExtra("LATITUDE",Double.toString(latitude) );
+                congressionalIntent.putExtra("LONGITUDE",Double.toString(longitude) );
+                /*
+                Bundle extras = new Bundle();
+                extras.putString("ZIPCODE", "-1");
+                extras.putString("LATITUDE", Double.toString(latitude));
+                extras.putString("LONGITUDE", Double.toString(longitude));
+                congressionalIntent.putExtras(extras);
+                */
                 //For Watch
                 watchIntent.putExtra("LOCATION", "94704");
                 break;
         }
         startActivity(congressionalIntent);
-        startService(watchIntent);
+        //startService(watchIntent);
     }
 
 
 
-    
+
     protected synchronized void buildGoogleApiClient(){
         mGoogleApiClient = new GoogleApiClient.Builder(this)
                .addConnectionCallbacks(this)

@@ -39,7 +39,7 @@ public class MyAdapter extends ArrayAdapter<Representative> {
         TextView websiteTextView = (TextView) theView.findViewById(R.id.websiteTextView);
         TextView tweetTextView = (TextView) theView.findViewById(R.id.tweetTextView);
 
-        String name = rep.firstName.concat(" ").concat(rep.lastName);
+        String name = rep.title +" "+ rep.firstName + " "+ rep.lastName;
         String party = rep.party;
         String email = rep.email;
         String website = rep.website;

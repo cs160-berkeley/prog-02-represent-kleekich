@@ -23,10 +23,10 @@ public class PhoneListenerService extends WearableListenerService {
     public void onMessageReceived(MessageEvent messageEvent) {
         Log.d("T", "in PhoneListenerService, got: " + messageEvent.getPath());
 
-        Representative r1 = new Representative("Bart", "Simpson", "Democrat", "Senator", "bart@gmail.com", "https://www.bart.com", "I love you!" ,"94704","03/16/2017","The Drinking Committee","Safe Drinking Act (01/16/ 2016)" );
-        Representative r3 = new Representative("Lisa", "Simpson", "Independent", "Representative", "lisa@gmail.com", "https://www.lisa.com", "I hate you" ,"94704","07/06/2017", "The Skateboard Committee", "Bill: Safe Boarding Act(02/17/ 2016)");
-        Representative r2 = new Representative("Homer", "Simpson", "Republican", "Senator", "homer@gmail.com", "https://www.homer.com", "I love you, too!" ,"94704","03/16/2017","The Drinking Committee","Safe Drinking Act (01/16/ 2016)");
-        Representative r4 = new Representative("Maggie", "Simpson", "Independent", "Senator", "meggie@gmail.com", "https://www.meggie.com", "dada" ,"11111", "07/06/2017", "The Skateboard Committee", "Bill: Safe Boarding Act(02/17/ 2016)");
+        Representative r1 = new Representative("Bart", "Simpson", "Democrat", "Senator", "bart@gmail.com", "https://www.bart.com", "I love you!" ,"94704","03/16/2017","The Drinking Committee","Safe Drinking Act (01/16/ 2016)"," "," " );
+
+        Representative r2 = new Representative("Homer", "Simpson", "Republican", "Senator", "homer@gmail.com", "https://www.homer.com", "I love you, too!" ,"94704","03/16/2017","The Drinking Committee","Safe Drinking Act (01/16/ 2016)"," "," ");
+
 
         if( messageEvent.getPath().equalsIgnoreCase(BART) ) {
 
@@ -43,7 +43,7 @@ public class PhoneListenerService extends WearableListenerService {
             String email = rep.email;
             String website = rep.website;
             String tweet = rep.tweet;
-            String endDate = rep.endDate;
+            String endDate = rep.endTerm;
             String committee = rep.committee;
             String recentBill = rep.recentBill;
 
@@ -76,7 +76,7 @@ public class PhoneListenerService extends WearableListenerService {
             String email = rep.email;
             String website = rep.website;
             String tweet = rep.tweet;
-            String endDate = rep.endDate;
+            String endDate = rep.endTerm;
             String committee = rep.committee;
             String recentBill = rep.recentBill;
 

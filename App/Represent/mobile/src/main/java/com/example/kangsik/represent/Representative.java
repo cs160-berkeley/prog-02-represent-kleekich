@@ -4,31 +4,34 @@ package com.example.kangsik.represent;
  * Created by Kangsik on 3/2/16.
  */
 public class Representative {
+    public String bid;
     public String firstName;
     public String lastName;
     public String party;
-    public String position;
+    public String title;
     public String email;
     public String website;
-    public String tweet;
-    public String zip;
-    public String endDate;
+    public String endTerm;
     public String committee;
     public String recentBill;
+    public String recentBillIntroducedOn;
+    public String twitterId;
+    public String tweet;
 
-    public Representative(String fn, String ln, String pa, String po, String em, String w, String t, String z, String en, String c, String r){
+    public Representative(String id, String fn, String ln, String pa, String tit, String em, String w, String en, String c, String b, String bi, String tId, String t){
+        bid = id;
         firstName = fn;
         lastName = ln;
         party = pa;
-        position = po;
+        title = tit;
         email = em;
         website = w;
-        tweet = t;
-        zip = z;
-        endDate = en;
+        endTerm = en;
         committee = c;
-        recentBill = r;
-
+        recentBill = b;
+        recentBillIntroducedOn = bi;
+        twitterId = tId;
+        tweet = t;
     }
 
 }
