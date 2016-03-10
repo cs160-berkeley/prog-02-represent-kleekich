@@ -20,12 +20,8 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.wearable.Wearable;
-import com.squareup.okhttp.internal.http.StatusLine;
 import com.twitter.sdk.android.Twitter;
 import com.twitter.sdk.android.core.TwitterAuthConfig;
-
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
 
 import io.fabric.sdk.android.Fabric;
 
@@ -41,20 +37,20 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
     //FOR CURRENT LOCATION
     private Location mLastLocation;
     private GoogleApiClient mGoogleApiClient;
-
     private boolean mRequestLocationUpdates = false;
-
     private LocationRequest mLocationRequest;
-
     private static int UPDATE_INTERVAL =10000;
     private static int FATEST_INTERVAL = 5000;
     private static int DISPLACEMENT = 10;
 
+    //FOR VIEW
     private TextView textViewCurrentLocation;
     private Button buttonShowLocation;
     private Button buttonStartLocationUpdates;
+    private EditText editTextZipCode;
 
     private static final String TAG = "myMessage";
+
 
 
 
@@ -64,41 +60,24 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
         TwitterAuthConfig authConfig = new TwitterAuthConfig(TWITTER_KEY, TWITTER_SECRET);
         Fabric.with(this, new Twitter(authConfig));
         setContentView(R.layout.activity_main);
-
         Log.i(TAG, "onCreate");
 
+        //FOR VIEW
+        textViewCurrentLocation = (TextView) findViewById(R.id.textViewCurrentLocation);
+        buttonStartLocationUpdates = (Button) findViewById(R.id.buttonStartLocationUpdates);
+        buttonShowLocation = (Button) findViewById(R.id.buttonShowLocation);
+
         //Sunlight Foundation
-        /*
-        HttpClient httpclient = new DefaultHttpClient();
-        HttpResponse response = httpclient.execute(new HttpGet(URL));
-        StatusLine statusLine = response.getStatusLine();
-        if(statusLine.getStatusCode() == HttpStatus.SC_OK){
-            ByteArrayOutputStream out = new ByteArrayOutputStream();
-            response.getEntity().writeTo(out);
-            String responseString = out.toString();
-            out.close();
-            //..more logic
-        } else{
-            //Closes the connection.
-            response.getEntity().getContent().close();
-            throw new IOException(statusLine.getReasonPhrase());
-        }
-        */
+
+
 
         //getting current location
-
         mGoogleApiClient = new GoogleApiClient.Builder(this)
-                .addApi(LocationServices.API) 
+                .addApi(LocationServices.API)
                 .addApi(Wearable.API)  // used for data layer API
                 .addConnectionCallbacks(this)
                 .addOnConnectionFailedListener(this)
                 .build();
-
-
-        //
-        textViewCurrentLocation = (TextView) findViewById(R.id.textViewCurrentLocation);
-        buttonStartLocationUpdates = (Button) findViewById(R.id.buttonStartLocationUpdates);
-        buttonShowLocation = (Button) findViewById(R.id.buttonShowLocation);
 
         if(this.checkPlayServices()){
             buildGoogleApiClient();
@@ -149,28 +128,38 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
 
 
 
-
-
-
-
     }
+
+
 
 
     public void sendMessage(View view){
         Intent congressionalIntent = new Intent(this, CongressionalActivity.class);
         Intent watchIntent = new Intent(getBaseContext(), PhoneToWatchService.class);
+        editTextZipCode = (EditText) findViewById(R.id.zipCodeInput);
+        String zipCodeInputString = editTextZipCode.getText().toString();
+
+
+
         switch(view.getId()){
             case R.id.enterButton:
-                EditText editText = (EditText) findViewById(R.id.zipCodeInput);
-                String zipCodeInputString = editText.getText().toString();
-                congressionalIntent.putExtra("userInputMessage", zipCodeInputString);
+
+
+                congressionalIntent.putExtra("ZIPCODE", zipCodeInputString);
 
                 //For Watch
                 watchIntent.putExtra("LOCATION", zipCodeInputString);
                 break;
             case R.id.currentLocationButton:
-                String currLocationString = "Current Location";
-                congressionalIntent.putExtra("userInputMessage", currLocationString);
+                mLastLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
+
+                double latitude = mLastLocation.getLatitude();
+                double longitude = mLastLocation.getLongitude();
+
+                textViewCurrentLocation.setText(latitude + ", " + longitude);
+                congressionalIntent.putExtra("LATITUDE", Double.toString(latitude));
+                congressionalIntent.putExtra("LONGITUDE", Double.toString(longitude));
+
 
                 //For Watch
                 watchIntent.putExtra("LOCATION", "94704");
@@ -181,40 +170,8 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
     }
 
 
-/*
-    private void displayLocation(){
-        mLastLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
-        System.out.print("Display Location button Clicked!!!!");
-        Log.i(TAG, "Display Location button Clicked!!!!");
 
-        if(mLastLocation != null){
-            double latitude = mLastLocation.getLatitude();
-            double longitude = mLastLocation.getLongitude();
-
-            textViewCurrentLocation.setText(latitude + ", " + longitude);
-
-        }else{
-            textViewCurrentLocation.setText("Couldn't get the location. Make sure location");
-        }
-
-    }
-/*
-    private void togglePeriodLocationUpdates() {
-        if(!mRequestLocationUpdates){
-            buttonStartLocationUpdates.setText(getString(R.string.button_stop_location_updates));
-
-            mRequestLocationUpdates = true;
-
-            startLocationUpdates();
-        }else{
-            buttonStartLocationUpdates.setText(getString(R.string.button_stop_location_updates));
-
-            mRequestLocationUpdates = false;
-
-            stopLocationUpdates();
-        }
-    }
-*/
+    
     protected synchronized void buildGoogleApiClient(){
         mGoogleApiClient = new GoogleApiClient.Builder(this)
                .addConnectionCallbacks(this)

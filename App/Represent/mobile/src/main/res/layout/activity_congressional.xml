@@ -30,7 +30,7 @@
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:text="Representative Found By"
-            android:id="@+id/textView5" />
+            android:id="@+id/textViewFoundBy" />
 
         <TextView
             android:layout_width="181dp"
