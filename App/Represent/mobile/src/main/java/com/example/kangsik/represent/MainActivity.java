@@ -29,8 +29,8 @@ import io.fabric.sdk.android.Fabric;
 public class MainActivity extends AppCompatActivity implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, LocationListener{
 
     // Note: Your consumer key and secret should be obfuscated in your source code before shipping.
-    private static final String TWITTER_KEY = "kleekich@berkeley.edu";
-    private static final String TWITTER_SECRET = "Grant6312!";
+    private static final String TWITTER_KEY = "4Jv7s0n2tUqSdM4FsiQ2aZGuw";
+    private static final String TWITTER_SECRET = "gw2MY2JZHdlpS18sLMsV1dhYKPOGI4B8bra7PGET8Fm7wKxlV8";
 
 
     // Note: Your consumer key and secret should be obfuscated in your source code before shipping.

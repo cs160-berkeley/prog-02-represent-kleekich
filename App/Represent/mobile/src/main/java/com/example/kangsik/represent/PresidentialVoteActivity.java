@@ -64,7 +64,7 @@ public class PresidentialVoteActivity extends Activity {
             stringUrl = "http://maps.googleapis.com/maps/api/geocode/json?latlng="+latitude+","+longitude+"&sensor=true"+GOOGLE_API_KEY;
 
         }else{
-            stringUrl = "http://maps.googleapis.com/maps/api/geocode/json?address="+zipcode+"&region=us&key="+GOOGLE_API_KEY;
+            stringUrl = "http://maps.googleapis.com/maps/api/geocode/json?address="+zipcode+"&region=us";
         }
 
         //To get county
