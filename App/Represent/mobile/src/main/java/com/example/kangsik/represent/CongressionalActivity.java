@@ -132,9 +132,7 @@ public class CongressionalActivity extends Activity {
                     JSONObject jasonObject = new JSONObject(response);
                     JSONArray jsonArray = jasonObject.optJSONArray("results");
                     Representative representative;
-                    int numRepresentatives = jsonArray.length();
-                    watchIntent.putExtra("NUM_REPRESENTATIVES", numRepresentatives);
-                    for(int i=0; i < numRepresentatives; i++) {
+                    for(int i=0; i < jsonArray.length(); i++) {
                         JSONObject object = jsonArray.getJSONObject(i);
                         bid = object.getString("bioguide_id");
                         first_name = object.getString("first_name");
@@ -164,8 +162,6 @@ public class CongressionalActivity extends Activity {
                         representative = new Representative(bid,first_name,last_name,party,title,email,website,endTerm,committee,recentBill,recentBillIntroducedOn, twitterId, tweet);
                         reps.add(representative);
                     }
-
-
 
 
                     //For multiple representatives
@@ -269,7 +265,9 @@ public class CongressionalActivity extends Activity {
                 new Button.OnClickListener() {
                     public void onClick(View v) {
                         Intent intent = new Intent(cCtx, PresidentialVoteActivity.class);
-                        intent.putExtra("selectedLocation", selectedLocation);
+                        intent.putExtra("ZIPCODE", zipcode);
+                        intent.putExtra("LONGITUDE",longitude);
+                        intent.putExtra("LATITUDE",latitude);
                         startActivity(intent);
 
                     }
