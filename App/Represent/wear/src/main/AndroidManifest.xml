@@ -43,6 +43,9 @@
             </intent-filter>
         </service>
         <service android:name=".WatchToPhoneCongressionalService" />
+        <meta-data
+            android:name="io.fabric.ApiKey"
+            android:value="783d88af33068620615188fb192dd4f8903b9ca2" />
     </application>
 
 </manifest>

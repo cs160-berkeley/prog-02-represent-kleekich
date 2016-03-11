@@ -9,39 +9,11 @@
         <dex dex="/Users/Kangsik/Documents/cs160/prog-02-represent-kleekich/App/Represent/wear/build/intermediates/pre-dexed/debug/google-maps-services-0.1.7_696e030b4de5c6009f52843a0d8d2464706bf3ec.jar" />
     </item>
     <item
-        jar="/Users/Kangsik/.gradle/caches/modules-2/files-2.1/com.squareup.okio/okio/1.0.0/2534c458682c73f5b9871131ab3098d3f987ca3/okio-1.0.0.jar"
+        jar="/Users/Kangsik/Documents/cs160/prog-02-represent-kleekich/App/Represent/wear/build/intermediates/exploded-aar/io.fabric.sdk.android/fabric/1.3.10/jars/classes.jar"
         jumboMode="false"
         revision="23.0.2"
-        sha1="02534c458682c73f5b9871131ab3098d3f987ca3">
-        <dex dex="/Users/Kangsik/Documents/cs160/prog-02-represent-kleekich/App/Represent/wear/build/intermediates/pre-dexed/debug/okio-1.0.0_9f838c3e5a550a9ce7a386807861140c769d53b6.jar" />
-    </item>
-    <item
-        jar="/Users/Kangsik/Documents/cs160/prog-02-represent-kleekich/App/Represent/wear/build/intermediates/exploded-aar/com.google.android.support/wearable/1.3.0/jars/classes.jar"
-        jumboMode="false"
-        revision="23.0.2"
-        sha1="58b928ccbaf9090c632f278d6bd31e1ae42f2457">
-        <dex dex="/Users/Kangsik/Documents/cs160/prog-02-represent-kleekich/App/Represent/wear/build/intermediates/pre-dexed/debug/com.google.android.support-wearable-1.3.0_43c8e82c26ae4a7a2edc89574aaffdf0f90f3dd4.jar" />
-    </item>
-    <item
-        jar="/Users/Kangsik/Library/Android/sdk/extras/android/m2repository/com/android/support/support-annotations/22.0.0/support-annotations-22.0.0.jar"
-        jumboMode="false"
-        revision="23.0.2"
-        sha1="685d0b2c590447e85284ed84712cb363ba04eff8">
-        <dex dex="/Users/Kangsik/Documents/cs160/prog-02-represent-kleekich/App/Represent/wear/build/intermediates/pre-dexed/debug/support-annotations-22.0.0_20ae3da2bbcbbfb1a77276e6629b8a07f5cb2014.jar" />
-    </item>
-    <item
-        jar="/Users/Kangsik/Documents/cs160/prog-02-represent-kleekich/App/Represent/wear/build/intermediates/exploded-aar/com.google.android.gms/play-services-wearable/7.0.0/jars/classes.jar"
-        jumboMode="false"
-        revision="23.0.2"
-        sha1="3033cc3a2c68dff3e5b646d6d084bdbdf7d00b25">
-        <dex dex="/Users/Kangsik/Documents/cs160/prog-02-represent-kleekich/App/Represent/wear/build/intermediates/pre-dexed/debug/com.google.android.gms-play-services-wearable-7.0.0_aff94d533de9464a2a37712c7125bc7fb198207b.jar" />
-    </item>
-    <item
-        jar="/Users/Kangsik/.gradle/caches/modules-2/files-2.1/joda-time/joda-time/2.4/89e9725439adffbbd41c5f5c215c136082b34a7f/joda-time-2.4.jar"
-        jumboMode="false"
-        revision="23.0.2"
-        sha1="89e9725439adffbbd41c5f5c215c136082b34a7f">
-        <dex dex="/Users/Kangsik/Documents/cs160/prog-02-represent-kleekich/App/Represent/wear/build/intermediates/pre-dexed/debug/joda-time-2.4_f0be7573ca4111936e4225828bae803576424828.jar" />
+        sha1="a5db9a2dd46d84285ef737f65030b74b6e8ee2a4">
+        <dex dex="/Users/Kangsik/Documents/cs160/prog-02-represent-kleekich/App/Represent/wear/build/intermediates/pre-dexed/debug/io.fabric.sdk.android-fabric-1.3.10_d024dffdbc3f57a3dee9bf5d2ce326db322c3621.jar" />
     </item>
     <item
         jar="/Users/Kangsik/.gradle/caches/modules-2/files-2.1/com.squareup.okhttp/okhttp/2.0.0/4c8d1536dba3812cc1592090dc20c47a4ed3c35e/okhttp-2.0.0.jar"
@@ -51,25 +23,32 @@
         <dex dex="/Users/Kangsik/Documents/cs160/prog-02-represent-kleekich/App/Represent/wear/build/intermediates/pre-dexed/debug/okhttp-2.0.0_eed0b9dbbf67f9eec933ca468d4c3a5a7f368b70.jar" />
     </item>
     <item
-        jar="/Users/Kangsik/Documents/cs160/prog-02-represent-kleekich/App/Represent/wear/build/intermediates/exploded-aar/com.android.support/support-v4/22.0.0/jars/classes.jar"
+        jar="/Users/Kangsik/Documents/cs160/prog-02-represent-kleekich/App/Represent/wear/build/intermediates/exploded-aar/com.android.support/support-v4/22.2.0/jars/libs/internal_impl-22.2.0.jar"
         jumboMode="false"
         revision="23.0.2"
-        sha1="4e86306289ace4aa0cfec44a05ed2b410d36989d">
-        <dex dex="/Users/Kangsik/Documents/cs160/prog-02-represent-kleekich/App/Represent/wear/build/intermediates/pre-dexed/debug/com.android.support-support-v4-22.0.0_671c8dbf70cbdc803d0f349365e5aa6dad5e28b4.jar" />
+        sha1="57f2ab85c164ff1676ec64dee787981c046fab79">
+        <dex dex="/Users/Kangsik/Documents/cs160/prog-02-represent-kleekich/App/Represent/wear/build/intermediates/pre-dexed/debug/internal_impl-22.2.0_0eac8fe3bc8a33c59a10f1bbe02be74c9f5c788f.jar" />
     </item>
     <item
-        jar="/Users/Kangsik/.gradle/caches/modules-2/files-2.1/com.google.code.gson/gson/2.3.1/ecb6e1f8e4b0e84c4b886c2f14a1500caf309757/gson-2.3.1.jar"
+        jar="/Users/Kangsik/.gradle/caches/modules-2/files-2.1/com.squareup.retrofit/retrofit/1.8.0/a517f29ed06be2b2879524fcd94b6e9b36e2e0b5/retrofit-1.8.0.jar"
         jumboMode="false"
         revision="23.0.2"
-        sha1="ecb6e1f8e4b0e84c4b886c2f14a1500caf309757">
-        <dex dex="/Users/Kangsik/Documents/cs160/prog-02-represent-kleekich/App/Represent/wear/build/intermediates/pre-dexed/debug/gson-2.3.1_d2782e92856fb0a16a2f02724d262199bc39628f.jar" />
+        sha1="a517f29ed06be2b2879524fcd94b6e9b36e2e0b5">
+        <dex dex="/Users/Kangsik/Documents/cs160/prog-02-represent-kleekich/App/Represent/wear/build/intermediates/pre-dexed/debug/retrofit-1.8.0_715705bc7188e8266773b2d3ef9b314d46293f7a.jar" />
     </item>
     <item
-        jar="/Users/Kangsik/Documents/cs160/prog-02-represent-kleekich/App/Represent/wear/build/intermediates/exploded-aar/com.android.support/support-v4/22.0.0/jars/libs/internal_impl-22.0.0.jar"
+        jar="/Users/Kangsik/Documents/cs160/prog-02-represent-kleekich/App/Represent/wear/build/intermediates/exploded-aar/com.digits.sdk.android/digits/1.10.0/jars/classes.jar"
         jumboMode="false"
         revision="23.0.2"
-        sha1="b5b92f469d515a13d778900f6d50c03d12f35504">
-        <dex dex="/Users/Kangsik/Documents/cs160/prog-02-represent-kleekich/App/Represent/wear/build/intermediates/pre-dexed/debug/internal_impl-22.0.0_40ee32a8c51ea8f64cef4aea7e31f8595d97da28.jar" />
+        sha1="f73b69a6720d816a93686d28bafeadb82b669040">
+        <dex dex="/Users/Kangsik/Documents/cs160/prog-02-represent-kleekich/App/Represent/wear/build/intermediates/pre-dexed/debug/com.digits.sdk.android-digits-1.10.0_d98f9ac64a15e8f526e6a261441e78221c101da8.jar" />
+    </item>
+    <item
+        jar="/Users/Kangsik/Library/Android/sdk/extras/android/m2repository/com/android/support/support-annotations/22.2.0/support-annotations-22.2.0.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="66b42a1f3eb7676070b7ef7f14b603483aecbee1">
+        <dex dex="/Users/Kangsik/Documents/cs160/prog-02-represent-kleekich/App/Represent/wear/build/intermediates/pre-dexed/debug/support-annotations-22.2.0_89ddeac1c486ca58ca860976a4bd38ea2e992c90.jar" />
     </item>
     <item
         jar="/Users/Kangsik/Documents/cs160/prog-02-represent-kleekich/App/Represent/wear/build/intermediates/exploded-aar/com.google.android.gms/play-services-base/7.0.0/jars/classes.jar"
@@ -79,11 +58,95 @@
         <dex dex="/Users/Kangsik/Documents/cs160/prog-02-represent-kleekich/App/Represent/wear/build/intermediates/pre-dexed/debug/com.google.android.gms-play-services-base-7.0.0_fb44ea7a52c30bd6bb1b8ba0d6321b8d956a66ea.jar" />
     </item>
     <item
+        jar="/Users/Kangsik/Documents/cs160/prog-02-represent-kleekich/App/Represent/wear/build/intermediates/exploded-aar/com.twitter.sdk.android/tweet-composer/1.0.3/jars/classes.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="0ea42614d0d3d5e9f507cb2f432ae821307cd0dc">
+        <dex dex="/Users/Kangsik/Documents/cs160/prog-02-represent-kleekich/App/Represent/wear/build/intermediates/pre-dexed/debug/com.twitter.sdk.android-tweet-composer-1.0.3_d7aa6f16238f4df21b5aeaff81ab92ad762215dc.jar" />
+    </item>
+    <item
+        jar="/Users/Kangsik/.gradle/caches/modules-2/files-2.1/com.squareup.okio/okio/1.0.0/2534c458682c73f5b9871131ab3098d3f987ca3/okio-1.0.0.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="02534c458682c73f5b9871131ab3098d3f987ca3">
+        <dex dex="/Users/Kangsik/Documents/cs160/prog-02-represent-kleekich/App/Represent/wear/build/intermediates/pre-dexed/debug/okio-1.0.0_9f838c3e5a550a9ce7a386807861140c769d53b6.jar" />
+    </item>
+    <item
+        jar="/Users/Kangsik/Documents/cs160/prog-02-represent-kleekich/App/Represent/wear/build/intermediates/exploded-aar/com.twitter.sdk.android/tweet-ui/1.10.0/jars/classes.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="7c0b959f5f5b6a38f6c680c9126f2076fac5b545">
+        <dex dex="/Users/Kangsik/Documents/cs160/prog-02-represent-kleekich/App/Represent/wear/build/intermediates/pre-dexed/debug/com.twitter.sdk.android-tweet-ui-1.10.0_daab18d13f79795e0d4b640feb768a2fce600709.jar" />
+    </item>
+    <item
         jar="/Users/Kangsik/Documents/cs160/prog-02-represent-kleekich/App/Represent/wear/build/intermediates/exploded-aar/com.android.support/recyclerview-v7/22.0.0/jars/classes.jar"
         jumboMode="false"
         revision="23.0.2"
         sha1="c6d79137693d494dee16372d3921f919eb724ced">
         <dex dex="/Users/Kangsik/Documents/cs160/prog-02-represent-kleekich/App/Represent/wear/build/intermediates/pre-dexed/debug/com.android.support-recyclerview-v7-22.0.0_e6b595f11523ef5a99cae5997348fc1391871632.jar" />
+    </item>
+    <item
+        jar="/Users/Kangsik/.gradle/caches/modules-2/files-2.1/com.google.code.gson/gson/2.3.1/ecb6e1f8e4b0e84c4b886c2f14a1500caf309757/gson-2.3.1.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="ecb6e1f8e4b0e84c4b886c2f14a1500caf309757">
+        <dex dex="/Users/Kangsik/Documents/cs160/prog-02-represent-kleekich/App/Represent/wear/build/intermediates/pre-dexed/debug/gson-2.3.1_d2782e92856fb0a16a2f02724d262199bc39628f.jar" />
+    </item>
+    <item
+        jar="/Users/Kangsik/.gradle/caches/modules-2/files-2.1/com.squareup.picasso/picasso/2.5.2/7446d06ec8d4f7ffcc53f1da37c95f200dcb9387/picasso-2.5.2.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="7446d06ec8d4f7ffcc53f1da37c95f200dcb9387">
+        <dex dex="/Users/Kangsik/Documents/cs160/prog-02-represent-kleekich/App/Represent/wear/build/intermediates/pre-dexed/debug/picasso-2.5.2_efdde80c8e7b13c2488aebd8a9cfd393440c24c6.jar" />
+    </item>
+    <item
+        jar="/Users/Kangsik/Documents/cs160/prog-02-represent-kleekich/App/Represent/wear/build/intermediates/exploded-aar/com.twitter.sdk.android/twitter/1.13.0/jars/classes.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="ab181062695be30f0fa59857912e246197a9a5b4">
+        <dex dex="/Users/Kangsik/Documents/cs160/prog-02-represent-kleekich/App/Represent/wear/build/intermediates/pre-dexed/debug/com.twitter.sdk.android-twitter-1.13.0_df74465eedf9630cccec8044d17324f371c80bfb.jar" />
+    </item>
+    <item
+        jar="/Users/Kangsik/.gradle/caches/modules-2/files-2.1/com.twitter/twitter-text/1.13.0/78415b95ae3184c5926d593feab64bfc0b73b2dd/twitter-text-1.13.0.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="78415b95ae3184c5926d593feab64bfc0b73b2dd">
+        <dex dex="/Users/Kangsik/Documents/cs160/prog-02-represent-kleekich/App/Represent/wear/build/intermediates/pre-dexed/debug/twitter-text-1.13.0_cbf7d69a8ea5e1eb6c354ba0e41297296431f882.jar" />
+    </item>
+    <item
+        jar="/Users/Kangsik/.gradle/caches/modules-2/files-2.1/joda-time/joda-time/2.4/89e9725439adffbbd41c5f5c215c136082b34a7f/joda-time-2.4.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="89e9725439adffbbd41c5f5c215c136082b34a7f">
+        <dex dex="/Users/Kangsik/Documents/cs160/prog-02-represent-kleekich/App/Represent/wear/build/intermediates/pre-dexed/debug/joda-time-2.4_f0be7573ca4111936e4225828bae803576424828.jar" />
+    </item>
+    <item
+        jar="/Users/Kangsik/Documents/cs160/prog-02-represent-kleekich/App/Represent/wear/build/intermediates/exploded-aar/com.google.android.gms/play-services-wearable/7.0.0/jars/classes.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="3033cc3a2c68dff3e5b646d6d084bdbdf7d00b25">
+        <dex dex="/Users/Kangsik/Documents/cs160/prog-02-represent-kleekich/App/Represent/wear/build/intermediates/pre-dexed/debug/com.google.android.gms-play-services-wearable-7.0.0_aff94d533de9464a2a37712c7125bc7fb198207b.jar" />
+    </item>
+    <item
+        jar="/Users/Kangsik/Documents/cs160/prog-02-represent-kleekich/App/Represent/wear/build/intermediates/exploded-aar/com.google.android.support/wearable/1.3.0/jars/classes.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="58b928ccbaf9090c632f278d6bd31e1ae42f2457">
+        <dex dex="/Users/Kangsik/Documents/cs160/prog-02-represent-kleekich/App/Represent/wear/build/intermediates/pre-dexed/debug/com.google.android.support-wearable-1.3.0_43c8e82c26ae4a7a2edc89574aaffdf0f90f3dd4.jar" />
+    </item>
+    <item
+        jar="/Users/Kangsik/Documents/cs160/prog-02-represent-kleekich/App/Represent/wear/build/intermediates/exploded-aar/com.twitter.sdk.android/twitter-core/1.6.5/jars/classes.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="e36da4dbb1bc77894c8e3841807c1f144ea24f36">
+        <dex dex="/Users/Kangsik/Documents/cs160/prog-02-represent-kleekich/App/Represent/wear/build/intermediates/pre-dexed/debug/com.twitter.sdk.android-twitter-core-1.6.5_1a5a35470b74622f69812ae6b2b1da1b39179c22.jar" />
+    </item>
+    <item
+        jar="/Users/Kangsik/Documents/cs160/prog-02-represent-kleekich/App/Represent/wear/build/intermediates/exploded-aar/com.android.support/support-v4/22.2.0/jars/classes.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="1ee588ff2c4daf7b97c1cbf922a6c7f027285c2f">
+        <dex dex="/Users/Kangsik/Documents/cs160/prog-02-represent-kleekich/App/Represent/wear/build/intermediates/pre-dexed/debug/com.android.support-support-v4-22.2.0_58fdaec9f518472a9f19826b7b5045849bf00a76.jar" />
     </item>
 
 </items>
