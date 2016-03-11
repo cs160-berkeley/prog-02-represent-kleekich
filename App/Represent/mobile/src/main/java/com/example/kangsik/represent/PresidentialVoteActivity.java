@@ -94,15 +94,18 @@ public class PresidentialVoteActivity extends Activity {
 
                     JSONObject jasonObject = new JSONObject(response);
                     JSONArray jsonArrayAPI = jasonObject.optJSONArray("results");
-                    Gson gson = new Gson();
-                    JSONObject objectAPI = jsonArrayAPI.getJSONObject(0);
-                    //GETTING JSONObject contains county
+
+                    JSONObject objectAPI = jsonArrayAPI.getJSONObject(1);
+                    //GETTING JSONObject contains county & state
                     JSONObject jsonObjectCounty = objectAPI.optJSONArray("address_components").getJSONObject(3);
+                    JSONObject jsonObjectState = objectAPI.optJSONArray("address_components").getJSONObject(4);
                     //GET county
                     //countyLong = jsonObjectCounty.getString("long_name");
                     countyShort = jsonObjectCounty.getString("short_name");
+                    state = jsonObjectState.getString("short_name");
                     System.out.println("=================");
-                    System.out.println("COUNTY: "+ countyLong);
+                    System.out.println("COUNTY: "+ countyShort);
+                    System.out.println("STATE: "+ state);
                     System.out.println("=================");
                     try{
                         InputStream stream = getAssets().open("election-county-2012.json");
@@ -123,7 +126,7 @@ public class PresidentialVoteActivity extends Activity {
                                         System.out.println("found it! obama-percentage" + j.get("obama-percentage") + " romney-percentage " + j.get("romney-percentage"));
                                         percentObama = j.getString("obama-percentage");
                                         percentRomney = j.getString("romney-percentage");
-                                        state = j.getString("state-postal");
+
                                 }
                             }
                         }catch(JSONException e){
