@@ -14,7 +14,13 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonParser;
+
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Locale;
 import java.util.Random;
 
@@ -27,7 +33,6 @@ public class MainActivity extends FragmentActivity {
     private float mAccel; // acceleration apart from gravity
     private float mAccelCurrent; // current acceleration including gravity
     private float mAccelLast; // last acceleration including gravity
-
     private SensorEventListener mSensorListener;
 
     private void reset() {
@@ -53,6 +58,9 @@ public class MainActivity extends FragmentActivity {
             new SimpleDateFormat("HH:mm", Locale.US);
 
 
+
+    private ArrayList<Representative> representatives;
+    private String jsonStringArray;
     private TextView textViewLocation;
     private TextView textViewName;
     private TextView textViewPosition;
@@ -105,7 +113,7 @@ public class MainActivity extends FragmentActivity {
 
         Intent intent = getIntent();
         Bundle extras = intent.getExtras();
-        selectedLocation = extras.getString("LOCATION");
+
 
         final DotsPageIndicator mPageIndicator;
         final GridViewPager mViewPager;
@@ -115,24 +123,16 @@ public class MainActivity extends FragmentActivity {
 
         };
 
-        //dummy data
+        representatives = new ArrayList<Representative>();
+        jsonStringArray = extras.getString("JSON_STRING_ARRAY");
+        Gson gson = new Gson();
+        JsonParser parser = new JsonParser();
+        JsonArray resultsJsonArray = parser.parse(jsonStringArray).getAsJsonArray();
 
-
-        Representative r1 = new Representative("Bart", "Simpson", "Democrat", "Senator", "bart@gmail.com", "https://www.bart.com", "I love you!" ,"94704","03/16/2017","The Drinking Committee","Safe Drinking Act (01/16/ 2016)" );
-        Representative r2 = new Representative("Homer", "Simpson", "Republican", "Senator", "homer@gmail.com", "https://www.homer.com", "I love you, too!" ,"94704","03/16/2017","The Drinking Committee","Safe Drinking Act (01/16/ 2016)");
-        Representative r3 = new Representative("Lisa", "Simpson", "Independent", "Representative", "lisa@gmail.com", "https://www.lisa.com", "I hate you" ,"94704","07/06/2017", "The Skateboard Committee", "Bill: Safe Boarding Act(02/17/ 2016)");
-        Representative r4 = new Representative("Maggie", "Simpson", "Independent", "Senator", "meggie@gmail.com", "https://www.meggie.com", "dada" ,"11111", "07/06/2017", "The Skateboard Committee", "Bill: Safe Boarding Act(02/17/ 2016)");
-
-        Representative[][] representatives = {{r1,r2,r3}};
-        if(selectedLocation.equals("11111")){
-            representatives[0][0] = r3;
-            representatives[0][1] = r2;
-            representatives[0][2] = r1;
-        }else if(selectedLocation.equals("94704")){
-            representatives[0][0] = r1;
-            representatives[0][1] = r2;
-            representatives[0][2] = r3;
+        for(final JsonElement jsonElement : resultsJsonArray) {
+            representatives.add(gson.fromJson(jsonElement, Representative.class));
         }
+
 
 
         // Get UI references

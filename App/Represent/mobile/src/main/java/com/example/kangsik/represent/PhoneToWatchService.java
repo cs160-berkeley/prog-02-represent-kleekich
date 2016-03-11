@@ -49,7 +49,8 @@ public class PhoneToWatchService extends Service {
         // which was passed over when we called startService
         Bundle extras = intent.getExtras();
         final String location = extras.getString("LOCATION");
-        final String location = extras.getString("LOCATION");
+        final String jsonStringArray = extras.getString("JSON_STRING_ARRAY");
+
 
         // Send the message with the cat name
         new Thread(new Runnable() {
@@ -58,7 +59,7 @@ public class PhoneToWatchService extends Service {
                 //first, connect to the apiclient
                 mApiClient.connect();
                 //now that you're connected, send a massage with the cat name
-                sendMessage("/" + location, location);
+                sendMessage("/PhoneToWatch", jsonStringArray);
 
             }
         }).start();

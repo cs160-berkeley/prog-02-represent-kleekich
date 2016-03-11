@@ -19,6 +19,8 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -121,16 +123,18 @@ public class CongressionalActivity extends Activity {
                 Log.i("INFO", response);
 
 
-                //Array For myAdapter
+                //Array For myAdapter & JSON string for phone to watch service
                 ArrayList<Representative> reps = new ArrayList<Representative>();
-                //Watch Intent
+                //For Watch Intent, We send LOCATION, NUM_REPRESENTATIVES, and REPRESENTATIVE1, REPRESENTATIVE2 ...
                 Intent watchIntent = new Intent(getBaseContext(), PhoneToWatchService.class);
-                watchIntent.putExtra("LOCATION", selectedLocation);
+
                 try {
                     JSONObject jasonObject = new JSONObject(response);
                     JSONArray jsonArray = jasonObject.optJSONArray("results");
                     Representative representative;
-                    for(int i=0; i < jsonArray.length(); i++) {
+                    int numRepresentatives = jsonArray.length();
+                    watchIntent.putExtra("NUM_REPRESENTATIVES", numRepresentatives);
+                    for(int i=0; i < numRepresentatives; i++) {
                         JSONObject object = jsonArray.getJSONObject(i);
                         bid = object.getString("bioguide_id");
                         first_name = object.getString("first_name");
@@ -156,15 +160,19 @@ public class CongressionalActivity extends Activity {
                                 party = "Independent";
                         }
                         name = title + ". " + first_name + " " + last_name;
-                        String repString = "REP".concat(Integer.toString(i)).concat("_");
-                        watchIntent.putExtra(repString.concat("NAME"), name);
-                        watchIntent.putExtra(repString.concat("PARTY"), party);
-                        watchIntent.putExtra(repString.concat("EMAIL"), email);
-                        watchIntent.putExtra(repString.concat("WEBSITE"), website);
 
                         representative = new Representative(bid,first_name,last_name,party,title,email,website,endTerm,committee,recentBill,recentBillIntroducedOn, twitterId, tweet);
                         reps.add(representative);
                     }
+
+
+
+
+                    //For multiple representatives
+                    Gson gson = new Gson();
+                    String jsonStringArray  = gson.toJson(reps);
+                    watchIntent.putExtra("JSON_STRING_ARRAY", jsonStringArray);
+                    watchIntent.putExtra("LOCATION", selectedLocation);
 
 
 
@@ -205,7 +213,7 @@ public class CongressionalActivity extends Activity {
                         startActivity(detail);
                     }
                 });
-                //FOR Watch
+                //For Watch
                 startService(watchIntent);
 
 

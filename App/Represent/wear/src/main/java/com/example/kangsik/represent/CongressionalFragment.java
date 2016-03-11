@@ -29,7 +29,7 @@ public class CongressionalFragment extends CardFragment {
     public void addRepresentative(Representative r) {
         this.representative = r;
         Bundle args = new Bundle();
-        args.putCharSequence("CardFragment_title", representative.firstName.concat(" ").concat(representative.lastName));
+        args.putCharSequence("CardFragment_title", representative.title+ representative.firstName.concat(" ").concat(representative.lastName));
         args.putCharSequence("CardFragment_text", representative.party);
         this.setArguments(args);
     }

@@ -1,14 +1,9 @@
 package com.example.kangsik.represent;
 
-import android.content.Context;
-import android.content.Intent;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
-import android.os.AsyncTask;
+
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -19,24 +14,12 @@ import com.twitter.sdk.android.core.TwitterApiClient;
 import com.twitter.sdk.android.core.TwitterAuthConfig;
 import com.twitter.sdk.android.core.TwitterCore;
 import com.twitter.sdk.android.core.TwitterException;
-import com.twitter.sdk.android.core.TwitterSession;
 import com.twitter.sdk.android.core.models.Tweet;
-import com.twitter.sdk.android.core.models.User;
+import com.twitter.sdk.android.core.services.StatusesService;
+import com.twitter.sdk.android.tweetui.TweetUi;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.util.List;
-
 import io.fabric.sdk.android.Fabric;
-import retrofit.http.GET;
-import retrofit.http.Query;
 
 //import android.support.v7.app.AppCompatActivity;
 
@@ -76,7 +59,15 @@ public class DetailActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
+
         //TWITTER
+        TwitterAuthConfig authConfig = new TwitterAuthConfig(TWITTER_KEY, TWITTER_SECRET);
+        Fabric.with(this, new TwitterCore(authConfig), new TweetUi());
+        Fabric.with(this, new Twitter(authConfig));
+
+        TwitterApiClient twitterApiClient = TwitterCore.getInstance().getApiClient();
+        // Can also use Twitter directly: Twitter.getApiClient()
+        StatusesService statusesService = twitterApiClient.getStatusesService();
         TwitterCore.getInstance().logInGuest(new Callback<AppSession>() {
             @Override
             public void success(Result<AppSession> appSessionResult) {
@@ -85,16 +76,70 @@ public class DetailActivity extends AppCompatActivity {
                 twitterApiClient.getStatusesService().userTimeline(null, "elonmusk", 10, null, null, false, false, false, true, new Callback<List<Tweet>>() {
                     @Override
                     public void success(Result<List<Tweet>> listResult) {
-                        for(Tweet tweet: listResult.data) {
+                        for (Tweet tweet : listResult.data) {
                             Log.d("fabricstuff", "result: " + tweet.text + "  " + tweet.createdAt);
                         }
                     }
+
                     @Override
                     public void failure(TwitterException e) {
                         e.printStackTrace();
                     }
                 });
             }
+
+            statusesService.show(524971209851543553L,null,null,null,new Callback<Tweet>()
+
+            {
+                @Override
+                public void success (Result < Tweet > result) {
+                //Do something with result, which provides a Tweet inside of result.data
+            }
+
+            public void failure(TwitterException exception) {
+                //Do something on failure
+            }
+        });
+
+        /*
+        class MyTwitterApiClient extends TwitterApiClient {
+            public MyTwitterApiClient(TwitterSession session) {
+                super(session);
+            }
+
+
+            public CustomService getCustomService() {
+                return getService(CustomService.class);
+            }
+        }
+
+        // example users/show service endpoint
+        interface CustomService {
+            @GET("/1.1/users/show.json")
+            void show(@Query("user_id") long id, Callback<User> cb);
+        }
+*
+
+        final LinearLayout myLayout
+                = (LinearLayout) findViewById(R.id.my_tweet_layout);
+
+        final List<Long> tweetIds = Arrays.asList(510908133917487104L);
+        TweetUtils.loadTweets(tweetIds, new Callback<Tweet>() {
+            @Override
+            public void success(Result<Tweet> result) {
+                for (Tweet tweet : result.data) {
+                    myLayout.addView(new TweetView(EmbeddedTweetsActivity.this, tweet));
+                }
+            }
+
+            @Override
+            public void failure(TwitterException exception) {
+                // Toast.makeText(...).show();
+            }
+        });
+
+
+
             @Override
             public void failure(TwitterException e) {
                 e.printStackTrace();
@@ -134,8 +179,7 @@ public class DetailActivity extends AppCompatActivity {
                         Log.d("twittercommunity", "exception is " + exception);
                     }
                 });
-        TwitterAuthConfig authConfig = new TwitterAuthConfig(TWITTER_KEY, TWITTER_SECRET);
-        Fabric.with(this, new Twitter(authConfig));
+
 
         TwitterSession session =
                 Twitter.getSessionManager().getActiveSession();

@@ -5,23 +5,28 @@ import android.app.FragmentManager;
 import android.support.wearable.view.CardFragment;
 import android.support.wearable.view.FragmentGridPagerAdapter;
 
+import java.util.ArrayList;
+
 /**
  * Created by Kangsik on 3/3/16.
  */
 public class WatchAdapter extends FragmentGridPagerAdapter{
-    Representative[][] mData;
 
-    public WatchAdapter(FragmentManager fm, Representative[][] data) {
+    ArrayList<Representative> representatives;
+
+    public WatchAdapter(FragmentManager fm, ArrayList<Representative> data) {
         super(fm);
-        mData = data;
+
+        this.representatives = data;
     }
 
     @Override
     public Fragment getFragment(int row, int column) {
-        Representative rep = mData[row][column];
+        Representative rep = representatives.get(column);
+
         CongressionalFragment cardFragment = CongressionalFragment.create(rep);
 
-        CardFragment fragment = CardFragment.create(mData[row][column].firstName,"");
+        CardFragment fragment = CardFragment.create(rep.firstName,"");
 
         return cardFragment;
     }
@@ -30,12 +35,12 @@ public class WatchAdapter extends FragmentGridPagerAdapter{
 
     @Override
     public int getRowCount() {
-        return mData.length;
+        return 1;
     }
 
     @Override
     public int getColumnCount(int row) {
-        return mData[row].length;
+        return representatives.size();
     }
 }
 
