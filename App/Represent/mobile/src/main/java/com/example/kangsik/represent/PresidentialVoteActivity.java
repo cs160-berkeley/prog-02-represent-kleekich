@@ -61,10 +61,13 @@ public class PresidentialVoteActivity extends Activity {
 
         //if user used current location use latitude and longitude to get JSON array
         if(zipcode.equals("-1")){
-            stringUrl = "http://maps.googleapis.com/maps/api/geocode/json?latlng="+latitude+","+longitude+"&sensor=true"+GOOGLE_API_KEY;
+
+            //stringUrl = "https://maps.googleapis.com/maps/api/geocode/json?latlng="+latitude+","+longitude+"&sensor=true&key="+GOOGLE_API_KEY;
+            stringUrl = "https://maps.googleapis.com/maps/api/geocode/json?latlng="+latitude+","+longitude+"&sensor=true";
 
         }else{
-            stringUrl = "http://maps.googleapis.com/maps/api/geocode/json?address="+zipcode+"&region=us";
+            //stringUrl = "https://maps.googleapis.com/maps/api/geocode/json?address="+zipcode+"&region=us&key="+GOOGLE_API_KEY;
+            stringUrl = "https://maps.googleapis.com/maps/api/geocode/json?address="+zipcode+"&region=us";
         }
 
         //To get county
@@ -91,7 +94,7 @@ public class PresidentialVoteActivity extends Activity {
                 Log.i("INFO", response);
                 try {
 
-
+                    Log.i("ZIPCODE", zipcode);
                     JSONObject jasonObject = new JSONObject(response);
                     JSONArray jsonArrayAPI = jasonObject.optJSONArray("results");
 
