@@ -176,9 +176,6 @@ public class CongressionalActivity extends Activity {
                     String jsonStringArray  = gson.toJson(reps);
                     watchIntent.putExtra("JSON_STRING_ARRAY", jsonStringArray);
 
-
-
-
                 } catch (JSONException e) {
                     // Appropriate error handling code
                     System.out.println("================");
@@ -197,12 +194,7 @@ public class CongressionalActivity extends Activity {
                         Bundle extras = new Bundle();
                         Representative rep = (Representative) adapterView.getItemAtPosition(position);
                         bid = rep.bid;
-                        name = rep.title + ". " + rep.firstName + " " + rep.lastName;
-                        party = rep.party;
-                        email = rep.email;
-                        website = rep.website;
-                        endTerm = rep.endTerm;
-                        twitterId = rep.twitterId;
+                        //twitterId = rep.twitterId;
 
                         extras.putString("BID", bid);
                         extras.putString("NAME", name);
