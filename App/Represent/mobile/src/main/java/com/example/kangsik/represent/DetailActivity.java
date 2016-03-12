@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.twitter.sdk.android.Twitter;
@@ -27,6 +28,8 @@ import com.twitter.sdk.android.core.models.User;
 import com.twitter.sdk.android.core.services.StatusesService;
 import com.twitter.sdk.android.core.Callback;
 import com.twitter.sdk.android.core.Result;
+import com.twitter.sdk.android.tweetui.TweetUtils;
+import com.twitter.sdk.android.tweetui.TweetView;
 
 import retrofit.http.GET;
 import retrofit.http.Query;
@@ -41,6 +44,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.Arrays;
 import java.util.List;
 
 import io.fabric.sdk.android.Fabric;
@@ -80,8 +84,24 @@ public class DetailActivity extends Activity {
     private static final String TWITTER_KEY = "4Jv7s0n2tUqSdM4FsiQ2aZGuw";
     private static final String TWITTER_SECRET = "gw2MY2JZHdlpS18sLMsV1dhYKPOGI4B8bra7PGET8Fm7wKxlV8";
 
+    class UsersTwitterApiClient extends TwitterApiClient {
+        public UsersTwitterApiClient(AppSession session) {
+            super(session);
+        }
+        public UsersService getUsersService() {
+            return getService(UsersService.class);
+        }
+    }
+    interface UsersService {
+        @GET("/1.1/users/show.json")
+        void show(@Query("user_id") Long userId,
+                  @Query("screen_name") String screenName,
+                  @Query("include_entities") Boolean includeEntities,
+                  Callback<User> cb);
+    }
+
     class MyTwitterApiClient extends TwitterApiClient {
-        public MyTwitterApiClient(TwitterSession session) {
+        public MyTwitterApiClient(AppSession session) {
             super(session);
         }
 
@@ -96,16 +116,81 @@ public class DetailActivity extends Activity {
     // example users/show service endpoint
     interface CustomService {
         @GET("/1.1/users/show.json")
-        void show(@Query("user_id") long id, Callback<User> cb);
+        void show(@Query("user_id") Long id,
+                  @Query("screen_name") String twitterStringID,
+                  @Query("include_entities") Boolean includeEntities,
+                  Callback<User> cb);
     }
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
+        //GET Passed Data
+        Intent intent = getIntent();
+        Bundle extras = intent.getExtras();
 
+        bid = extras.getString("BID");
+        name = extras.getString("NAME");
+        party = extras.getString("PARTY");
+        email = extras.getString("EMAIL");
+        website = extras.getString("WEBSITE");
+        endTerm = extras.getString("END_TERM");
+        twitterId = extras.getString("TWITTER_ID");
         //TWITTER
+        // CHECK IF TWITTER ID IS NOT NULL
         TwitterAuthConfig authConfig = new TwitterAuthConfig(TWITTER_KEY, TWITTER_SECRET);
         Fabric.with(this, new Twitter(authConfig));
+
+
+        TwitterCore.getInstance().logInGuest(new Callback<AppSession>() {
+            @Override
+            public void success(Result<AppSession> result) {
+                AppSession guestAppSession = result.data;
+                new UsersTwitterApiClient(guestAppSession).getUsersService().show(null, twitterId, true,
+                        new Callback<User>() {
+                            @Override
+                            public void success(Result<User> result) {
+                                // extract tweet text
+                                String tweet = result.data.status.text;
+                                System.out.println(tweet);
+
+
+                            }
+
+                            @Override
+                            public void failure(TwitterException exception) {
+                                System.out.println(exception);
+                            }
+                        });
+            }
+
+            @Override
+            public void failure(TwitterException e) {
+                System.out.println(e);
+            }
+        });
+        /*
+        final LinearLayout myLayout
+                = (LinearLayout) findViewById(R.id.my_tweet_layout);
+
+        final List<Long> tweetIds = Arrays.asList(Long.toLong(twitterId);
+        TweetUtils.loadTweets(tweetIds, new Callback<Tweet>() {
+            @Override
+            public void success(Result<Tweet> result) {
+                for (Tweet tweet : result.data) {
+                    myLayout.addView(new TweetView(EmbeddedTweetsActivity.this, tweet));
+                }
+            }
+
+            @Override
+            public void failure(TwitterException exception) {
+                // Toast.makeText(...).show();
+            }
+        });
+        */
+        /*
         TwitterApiClient twitterApiClient = TwitterCore.getInstance().getApiClient();
         TwitterSession session = Twitter.getSessionManager().getActiveSession();
         TwitterAuthToken authToken = session.getAuthToken();
@@ -149,7 +234,7 @@ public class DetailActivity extends Activity {
                 //Do something on failure
             }
         });
-
+        */
         /*
         statusesService.show(524971209851543553L, null, null, null, new Callback<Tweet>() {
             @Override
@@ -165,43 +250,6 @@ public class DetailActivity extends Activity {
 
     */
 
-
-        /*
-        TwitterApiClient twitterApiClient = TwitterCore.getInstance().getApiClient();
-        // Can also use Twitter directly: Twitter.getApiClient()
-        final StatusesService statusesService = twitterApiClient.getStatusesService();
-        TwitterCore.getInstance().logInGuest(new Callback<AppSession>() {
-            @Override
-            public void success(Result<AppSession> appSessionResult) {
-                AppSession session = appSessionResult.data;
-                TwitterApiClient twitterApiClient = TwitterCore.getInstance().getApiClient(session);
-                twitterApiClient.getStatusesService().userTimeline(null, "elonmusk", 10, null, null, false, false, false, true, new Callback<List<Tweet>>() {
-                    @Override
-                    public void success(Result<List<Tweet>> listResult) {
-                        for (Tweet tweet : listResult.data) {
-                            Log.d("fabricstuff", "result: " + tweet.text + "  " + tweet.createdAt);
-                        }
-                    }
-
-                    @Override
-                    public void failure(TwitterException e) {
-                        e.printStackTrace();
-                    }
-                });
-            }
-
-            statusesService.show(524971209851543553L,null,null,null,new Callback<Tweet>()
-
-            {
-                @Override
-                public void success (Result < Tweet > result) {
-                //Do something with result, which provides a Tweet inside of result.data
-            }
-
-            public void failure(TwitterException exception) {
-                //Do something on failure
-            }
-        });
 
         /*
         class MyTwitterApiClient extends TwitterApiClient {
@@ -222,23 +270,7 @@ public class DetailActivity extends Activity {
         }
 *
 
-        final LinearLayout myLayout
-                = (LinearLayout) findViewById(R.id.my_tweet_layout);
 
-        final List<Long> tweetIds = Arrays.asList(510908133917487104L);
-        TweetUtils.loadTweets(tweetIds, new Callback<Tweet>() {
-            @Override
-            public void success(Result<Tweet> result) {
-                for (Tweet tweet : result.data) {
-                    myLayout.addView(new TweetView(EmbeddedTweetsActivity.this, tweet));
-                }
-            }
-
-            @Override
-            public void failure(TwitterException exception) {
-                // Toast.makeText(...).show();
-            }
-        });
 
 
 
@@ -331,17 +363,7 @@ public class DetailActivity extends Activity {
         );
 
 
-        //GET Passed Data
-        Intent intent = getIntent();
-        Bundle extras = intent.getExtras();
 
-        bid = extras.getString("BID");
-        name = extras.getString("NAME");
-        party = extras.getString("PARTY");
-        email = extras.getString("EMAIL");
-        website = extras.getString("WEBSITE");
-        endTerm = extras.getString("END_TERM");
-        twitterId = extras.getString("TWITTER_ID");
 
 
         //QUERY

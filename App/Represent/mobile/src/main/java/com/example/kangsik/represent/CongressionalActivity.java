@@ -44,6 +44,8 @@ public class CongressionalActivity extends Activity {
     private String stringUrl;
 
     private final static String SUNLIGHT_API_KEY = "45a993c1ef534c45b4b15bfc6ead5422";
+    private static final String TWITTER_KEY = "4Jv7s0n2tUqSdM4FsiQ2aZGuw";
+    private static final String TWITTER_SECRET = "gw2MY2JZHdlpS18sLMsV1dhYKPOGI4B8bra7PGET8Fm7wKxlV8";
 
 
     private TextView textViewSearchMode;
@@ -65,6 +67,8 @@ public class CongressionalActivity extends Activity {
     private String recentBill;
     private String recentBillIntroducedOn;
     private String tweet;
+    private String location;
+    private String watchZIPCODE;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,6 +86,8 @@ public class CongressionalActivity extends Activity {
         zipcode = extras.getString("ZIPCODE");
         longitude = extras.getString("LONGITUDE");
         latitude = extras.getString("LATITUDE");
+        watchZIPCODE = extras.getString("WATCH_ZIP");
+
         if(zipcode.equals("-1")){
             textViewSearchMode.setText("Current Location");
             selectedLocation = "Current Location";
@@ -147,6 +153,7 @@ public class CongressionalActivity extends Activity {
                         recentBillIntroducedOn = "";
                         twitterId = object.getString("twitter_id");
                         tweet = "";
+                        location = selectedLocation;
                         switch(party){
                             case "D":
                                 party = "Democrat";
@@ -159,7 +166,7 @@ public class CongressionalActivity extends Activity {
                         }
                         name = title + ". " + first_name + " " + last_name;
 
-                        representative = new Representative(bid,first_name,last_name,party,title,email,website,endTerm,committee,recentBill,recentBillIntroducedOn, twitterId, tweet);
+                        representative = new Representative(bid,first_name,last_name,party,title,email,website,endTerm,committee,recentBill,recentBillIntroducedOn, twitterId, tweet,location);
                         reps.add(representative);
                     }
 
@@ -168,7 +175,7 @@ public class CongressionalActivity extends Activity {
                     Gson gson = new Gson();
                     String jsonStringArray  = gson.toJson(reps);
                     watchIntent.putExtra("JSON_STRING_ARRAY", jsonStringArray);
-                    watchIntent.putExtra("LOCATION", selectedLocation);
+
 
 
 
@@ -203,7 +210,7 @@ public class CongressionalActivity extends Activity {
                         extras.putString("EMAIL", email);
                         extras.putString("WEBSITE", website);
                         extras.putString("END_TERM", endTerm);
-                        extras.putString("TWITTER_ID", tweet);
+                        extras.putString("TWITTER_ID", twitterId);
 
                         detail.putExtras(extras);
                         startActivity(detail);

@@ -15,7 +15,7 @@ import java.nio.charset.StandardCharsets;
 public class WatchListenerService extends WearableListenerService {
     // In PhoneToWatchService, we passed in a path, either "/FRED" or "/LEXY"
     // These paths serve to differentiate different phone-to-watch messages
-    private static final String PHONE_TO_WATCH = "/PhoneToWatch";
+    private static final String PHONE_TO_WATCH = "/PHONE_TO_WATCH";
 
 
     @Override

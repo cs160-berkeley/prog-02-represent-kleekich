@@ -4,19 +4,16 @@ buildscript {
     }
 
     dependencies {
-
         classpath 'io.fabric.tools:gradle:1.+'
-
-
     }
 }
 apply plugin: 'com.android.application'
+apply plugin: 'io.fabric'
 
 repositories {
     maven { url 'https://maven.fabric.io/public' }
 }
 
-apply plugin: 'io.fabric'
 
 android {
     compileSdkVersion 23
@@ -38,8 +35,6 @@ android {
     }
 }
 
-
-
 dependencies {
     compile 'com.google.maps:google-maps-services:0.1.7'
     compile 'com.google.android.gms:play-services:7.5.0'
@@ -48,14 +43,12 @@ dependencies {
     testCompile 'junit:junit:4.12'
     compile 'com.android.support:appcompat-v7:23.1.1'
     compile 'com.android.support:design:23.1.1'
+    compile 'com.google.code.gson:gson:2.2.4'
+
     compile('com.twitter.sdk.android:twitter:1.13.0@aar') {
         transitive = true;
     }
     compile('com.crashlytics.sdk.android:crashlytics:2.5.5@aar') {
         transitive = true;
     }
-    compile('com.twitter.sdk.android:tweet-ui:1.10.0@aar') {
-        transitive = true;
-    }
-    compile 'com.google.code.gson:gson:2.2.4'
 }

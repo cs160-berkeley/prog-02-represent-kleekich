@@ -48,7 +48,6 @@ public class PhoneToWatchService extends Service {
         // Which cat do we want to feed? Grab this info from INTENT
         // which was passed over when we called startService
         Bundle extras = intent.getExtras();
-        final String location = extras.getString("LOCATION");
         final String jsonStringArray = extras.getString("JSON_STRING_ARRAY");
 
 
@@ -59,7 +58,7 @@ public class PhoneToWatchService extends Service {
                 //first, connect to the apiclient
                 mApiClient.connect();
                 //now that you're connected, send a massage with the cat name
-                sendMessage("/PhoneToWatch", jsonStringArray);
+                sendMessage("/PHONE_TO_WATCH", jsonStringArray);
 
             }
         }).start();

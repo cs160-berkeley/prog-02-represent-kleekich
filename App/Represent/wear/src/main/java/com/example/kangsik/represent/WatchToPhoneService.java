@@ -20,7 +20,7 @@ public class WatchToPhoneService extends Service implements GoogleApiClient.Conn
     private static final String TAG = "myMessage";
     private GoogleApiClient mWatchApiClient;
     private List<Node> nodes = new ArrayList<>();
-    String firstName = "";
+
     @Override
     public void onCreate() {
         super.onCreate();
@@ -68,15 +68,15 @@ public class WatchToPhoneService extends Service implements GoogleApiClient.Conn
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        Bundle extras =intent.getExtras();
-        firstName = extras.getString("FIRSTNAME");
+        Bundle extras = intent.getExtras();
+        final String JsonStringRepresentative = extras.getString("JSON_STRING_REPRESENTATIVE");
         new Thread(new Runnable() {
             @Override
             public void run() {
 
                 mWatchApiClient.connect();
                 //now that you're connected, send a massage with the cat name
-                sendMessage("/" + firstName, firstName);
+                sendMessage("/WATCH_TO_DETAIL", JsonStringRepresentative);
 
             }
         }).start();

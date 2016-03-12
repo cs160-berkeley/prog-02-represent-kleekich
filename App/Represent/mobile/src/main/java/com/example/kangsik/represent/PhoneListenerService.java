@@ -6,6 +6,12 @@ import android.util.Log;
 
 import com.google.android.gms.wearable.MessageEvent;
 import com.google.android.gms.wearable.WearableListenerService;
+import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonParser;
+
+import java.nio.charset.StandardCharsets;
 
 /**
  * Created by Kangsik on 3/3/16.
@@ -13,8 +19,9 @@ import com.google.android.gms.wearable.WearableListenerService;
 public class PhoneListenerService extends WearableListenerService {
 
     //   WearableListenerServices don't need an iBinder or an onStartCommand: they just need an onMessageReceieved.
-    private static final String BART = "/Bart";
-    private static final String HOMER = "/Homer";
+    private static final String WATCH_TO_DETAIL = "/WATCH_TO_DETAIL";
+    private static final String WATCH_TO_CONGRESSIONAL = "/WATCH_TO_CONGRESSIONAL";
+
 
 
 
@@ -22,48 +29,15 @@ public class PhoneListenerService extends WearableListenerService {
     @Override
     public void onMessageReceived(MessageEvent messageEvent) {
         Log.d("T", "in PhoneListenerService, got: " + messageEvent.getPath());
+        if( messageEvent.getPath().equalsIgnoreCase(WATCH_TO_DETAIL) ) {
 
-        Representative r1 = new Representative("Bart", "Simpson", "Democrat", "Senator", "bart@gmail.com", "https://www.bart.com", "I love you!" ,"94704","03/16/2017","The Drinking Committee","Safe Drinking Act (01/16/ 2016)"," "," " );
+            String stringRep = new String(messageEvent.getData(), StandardCharsets.UTF_8);
 
-        Representative r2 = new Representative("Homer", "Simpson", "Republican", "Senator", "homer@gmail.com", "https://www.homer.com", "I love you, too!" ,"94704","03/16/2017","The Drinking Committee","Safe Drinking Act (01/16/ 2016)"," "," ");
-
-
-        if( messageEvent.getPath().equalsIgnoreCase(BART) ) {
-
-            Representative rep = r1;
-
-            Intent intent = new Intent(getBaseContext(), DetailActivity.class );
-            Bundle extras = new Bundle();
-
-            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            //you need to add this flag since you're starting a new activity from a service
-
-            String name = rep.firstName.concat(" ").concat(rep.lastName);
-            String party = rep.party;
-            String email = rep.email;
-            String website = rep.website;
-            String tweet = rep.tweet;
-            String endDate = rep.endTerm;
-            String committee = rep.committee;
-            String recentBill = rep.recentBill;
-
-
-
-            extras.putString("name", name);
-            extras.putString("party", party);
-            extras.putString("email", email);
-            extras.putString("website", website);
-            extras.putString("tweet", tweet);
-            extras.putString("endDate", endDate);
-            extras.putString("committee", committee);
-            extras.putString("recentBill", recentBill);
-
-
-            intent.putExtras(extras);
-            startActivity(intent);
-
-        } else if (messageEvent.getPath().equalsIgnoreCase(HOMER)){
-            Representative rep = r2;
+            System.out.println("==========");
+            System.out.println("stringRep: "+ stringRep);
+            System.out.println("==========");
+            Gson gson = new Gson();
+            Representative rep = gson.fromJson(stringRep, Representative.class);
 
 
             Intent intent = new Intent(getBaseContext(), DetailActivity.class );
@@ -71,29 +45,30 @@ public class PhoneListenerService extends WearableListenerService {
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             //you need to add this flag since you're starting a new activity from a service
 
-            String name = rep.firstName.concat(" ").concat(rep.lastName);
+
+            String bid = rep.bid;
+            String name = rep.title + ". " + rep.firstName + " " + rep.lastName;
             String party = rep.party;
             String email = rep.email;
             String website = rep.website;
-            String tweet = rep.tweet;
             String endDate = rep.endTerm;
-            String committee = rep.committee;
-            String recentBill = rep.recentBill;
+            String twitterId = rep.twitterId;
+
+
+            extras.putString("BID", bid);
+            extras.putString("NAME", name);
+            extras.putString("PARTY", party);
+            extras.putString("EMAIL", email);
+            extras.putString("WEBSITE", website);
+            extras.putString("END_TERM", endDate);
+            extras.putString("TWITTER_ID", twitterId);
 
 
 
-            extras.putString("name", name);
-            extras.putString("party", party);
-            extras.putString("email", email);
-            extras.putString("website", website);
-            extras.putString("tweet", tweet);
-            extras.putString("endDate", endDate);
-            extras.putString("committee", committee);
-            extras.putString("recentBill", recentBill);
             intent.putExtras(extras);
-
             startActivity(intent);
-        }else{
+
+        } else if (messageEvent.getPath().equalsIgnoreCase(WATCH_TO_CONGRESSIONAL)){
             Intent congressionalIntent = new Intent(getBaseContext(), CongressionalActivity.class );
             Bundle extras = new Bundle();
             congressionalIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
