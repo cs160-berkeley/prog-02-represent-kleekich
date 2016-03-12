@@ -31,40 +31,16 @@ public class PhoneListenerService extends WearableListenerService {
         Log.d("T", "in PhoneListenerService, got: " + messageEvent.getPath());
         if( messageEvent.getPath().equalsIgnoreCase(WATCH_TO_DETAIL) ) {
 
-            String stringRep = new String(messageEvent.getData(), StandardCharsets.UTF_8);
-
-            System.out.println("==========");
-            System.out.println("stringRep: "+ stringRep);
-            System.out.println("==========");
-            Gson gson = new Gson();
-            Representative rep = gson.fromJson(stringRep, Representative.class);
-
-
+            String bid = new String(messageEvent.getData(), StandardCharsets.UTF_8);
+            System.out.println("======IN PHONE_LISTENER====");
+            System.out.println(bid);
+            System.out.println("======IN PHONE_LISTENER====");
             Intent intent = new Intent(getBaseContext(), DetailActivity.class );
             Bundle extras = new Bundle();
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             //you need to add this flag since you're starting a new activity from a service
 
-
-            String bid = rep.bid;
-            String name = rep.title + ". " + rep.firstName + " " + rep.lastName;
-            String party = rep.party;
-            String email = rep.email;
-            String website = rep.website;
-            String endDate = rep.endTerm;
-            String twitterId = rep.twitterId;
-
-
             extras.putString("BID", bid);
-            extras.putString("NAME", name);
-            extras.putString("PARTY", party);
-            extras.putString("EMAIL", email);
-            extras.putString("WEBSITE", website);
-            extras.putString("END_TERM", endDate);
-            extras.putString("TWITTER_ID", twitterId);
-
-
-
             intent.putExtras(extras);
             startActivity(intent);
 

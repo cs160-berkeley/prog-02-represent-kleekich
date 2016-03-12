@@ -199,9 +199,8 @@ public class DetailActivity extends Activity {
                 recentBillTextView.setText("Recent Bill: "+recentBill+" ("+recentBillIntroducedOn+")");
             } catch (JSONException e) {
                 // Appropriate error handling code
-                System.out.println("================");
                 System.out.println(e.getMessage());
-                System.out.println("================");
+
             }
         }
         private String downloadUrl(String myurl) throws IOException {
@@ -246,11 +245,9 @@ public class DetailActivity extends Activity {
 
 
         //TWITTER
-        // CHECK IF TWITTER ID IS NOT NULL
+        // MAYBE GOING INSIDE POST_EXECUTE
         TwitterAuthConfig authConfig = new TwitterAuthConfig(TWITTER_KEY, TWITTER_SECRET);
         Fabric.with(this, new Twitter(authConfig));
-
-
         TwitterCore.getInstance().logInGuest(new Callback<AppSession>() {
             @Override
             public void success(Result<AppSession> result) {
@@ -262,8 +259,6 @@ public class DetailActivity extends Activity {
                                 // extract tweet text
                                 String tweet = result.data.status.text;
                                 System.out.println(tweet);
-
-
                             }
 
                             @Override
@@ -490,8 +485,6 @@ public class DetailActivity extends Activity {
         recentBillTextView = (TextView) findViewById(R.id.recentBillTextView);
         emailTextView = (TextView) findViewById(R.id.emailTextView);
         websiteTextView = (TextView) findViewById(R.id.websiteTextView);
-
-
 
         imageView.setImageResource(R.drawable.slide);
 

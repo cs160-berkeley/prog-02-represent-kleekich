@@ -9,10 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.google.gson.Gson;
 
-
-import java.util.ArrayList;
 
 /**
  * Created by Kangsik on 3/3/16.
@@ -20,7 +17,6 @@ import java.util.ArrayList;
 public class CongressionalFragment extends CardFragment {
     private static final String TAG = "myMessage";
     Representative representative;
-    private String JsonStringRepresentative;
 
 
 
@@ -36,8 +32,7 @@ public class CongressionalFragment extends CardFragment {
 
     public void addRepresentative(Representative r) {
         representative = r;
-        Gson gson = new Gson();
-        JsonStringRepresentative  = gson.toJson(r);
+
         Bundle args = new Bundle();
         args.putCharSequence("CardFragment_title", representative.title+". "+ representative.firstName.concat(" ").concat(representative.lastName));
         args.putCharSequence("CardFragment_text", representative.party);
@@ -54,8 +49,11 @@ public class CongressionalFragment extends CardFragment {
         title.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                System.out.println("======IN CONG_FRAG====");
+                System.out.println(representative.bid);
+                System.out.println("======IN CONG_FRAG====");
                 Intent intent = new Intent(getActivity(), WatchToPhoneService.class);
-                intent.putExtra("JSON_STRING_REPRESENTATIVE", JsonStringRepresentative);
+                intent.putExtra("BID", representative.bid);
                 getActivity().startService(intent);
 
             }
