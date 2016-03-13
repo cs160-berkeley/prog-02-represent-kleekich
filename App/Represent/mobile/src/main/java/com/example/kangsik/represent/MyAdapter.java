@@ -22,6 +22,7 @@ import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.Volley;
 
+import com.google.android.gms.common.api.GoogleApiClient;
 import com.twitter.sdk.android.core.AppSession;
 import com.twitter.sdk.android.core.TwitterApiClient;
 import com.twitter.sdk.android.core.TwitterException;
@@ -61,15 +62,15 @@ import java.util.List;
 public class MyAdapter extends ArrayAdapter<Representative> {
     private RequestQueue mRequestQueue;
     private ImageLoader mImageLoader;
-    private final Activity context;
+    private Activity context;
     private final List<Representative> representatives;
     public AppSession guestAppSession;
+    private GoogleApiClient mApiClient;
 
-
-    public MyAdapter(Context context, ArrayList<Representative> representatives) {
+    public MyAdapter(Activity context, ArrayList<Representative> representatives) {
         super(context,R.layout.row_layout, representatives);
         //super(context, R.layout.congressional_list_view_cell, legislators);
-        this.context=context;
+        this.context= context;
         this.representatives=representatives;
 
         //For images
@@ -99,7 +100,7 @@ public class MyAdapter extends ArrayAdapter<Representative> {
 
         //ImageView in row
         ImageView pictureView = (ImageView) theView.findViewById(R.id.imageViewPicture);
-        pictureView.setImageResource(R.drawable.slide);
+        //pictureView.setImageResource(R.drawable.slide);
 
         //textView in row
         TextView nameTextView = (TextView) theView.findViewById(R.id.nameTextView);
@@ -121,6 +122,7 @@ public class MyAdapter extends ArrayAdapter<Representative> {
         tweetTextView.setText(tweet);
 
         // update Tweet view if twittter ID is not null
+        /*
         if (rep.twitterId != null) {
             updateTweetViewAndImageView(rowView, rep.twitterId);
         } else {
@@ -130,15 +132,16 @@ public class MyAdapter extends ArrayAdapter<Representative> {
             rowView.findViewById(R.id.tweetView).setVisibility(View.GONE);
         }
 
-
+        */
         return theView;
 
     }
 
     public void updateTweetViewAndImageView(View rowView, String twitterId) {
         final TextView tweetTextView = (TextView) rowView.findViewById(R.id.tweetTextView);
-        final CircleNetworkImageView imageView = (CircleNetworkImageView) rowView.findViewById(R.id.iconImageView);
-
+        final CircleNetworkImageView imageView = (CircleNetworkImageView) rowView.findViewById(R.id.imageViewPicture);
+        //ImageView in row
+        //ImageView pictureView = (ImageView) rowView.findViewById(R.id.imageViewPicture);
         new UsersTwitterApiClient(guestAppSession).getUsersService().show(null, twitterId, true,
                 new Callback<User>() {
                     @Override

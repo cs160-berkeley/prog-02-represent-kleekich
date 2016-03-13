@@ -196,7 +196,9 @@ public class DetailActivity extends Activity {
                 websiteTextView.setText("Website: ".concat(website));
                 endDateTextView.setText("End Date of Term: ".concat(endTerm));
                 committeeTextView.setText("Committee: "+committee);
-                recentBillTextView.setText("Recent Bill: "+recentBill+" ("+recentBillIntroducedOn+")");
+                recentBillTextView.setText("Recent Bill: " + recentBill + " (" + recentBillIntroducedOn + ")");
+
+
             } catch (JSONException e) {
                 // Appropriate error handling code
                 System.out.println(e.getMessage());
@@ -231,6 +233,8 @@ public class DetailActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        TwitterAuthConfig authConfig = new TwitterAuthConfig(TWITTER_KEY, TWITTER_SECRET);
+        Fabric.with(this, new Twitter(authConfig));
         setContentView(R.layout.activity_detail);
         //GET Passed Data
         Intent intent = getIntent();
@@ -246,8 +250,7 @@ public class DetailActivity extends Activity {
 
         //TWITTER
         // MAYBE GOING INSIDE POST_EXECUTE
-        TwitterAuthConfig authConfig = new TwitterAuthConfig(TWITTER_KEY, TWITTER_SECRET);
-        Fabric.with(this, new Twitter(authConfig));
+
         TwitterCore.getInstance().logInGuest(new Callback<AppSession>() {
             @Override
             public void success(Result<AppSession> result) {
@@ -258,7 +261,27 @@ public class DetailActivity extends Activity {
                             public void success(Result<User> result) {
                                 // extract tweet text
                                 String tweet = result.data.status.text;
+                                Long tweetId = result.data.status.id;
                                 System.out.println(tweet);
+                                /*
+                                final LinearLayout myLayout
+                                        = (LinearLayout) findViewById(R.id.my_tweet_layout);
+                                myLayout.addView(new TweetView(DetailActivity.this, ));
+                                */
+                                final LinearLayout myLayout
+                                        = (LinearLayout) findViewById(R.id.my_tweet_layout);
+                                TweetUtils.loadTweet(tweetId, new Callback<Tweet>() {
+                                    @Override
+                                    public void success(Result<Tweet> result) {
+                                        TweetView tweetView = new TweetView(DetailActivity.this, result.data);
+                                        myLayout.addView(tweetView);
+                                    }
+
+                                    @Override
+                                    public void failure(TwitterException exception) {
+                                        Log.d("TwitterKit", "Load Tweet failure", exception);
+                                    }
+                                });
                             }
 
                             @Override
@@ -273,6 +296,10 @@ public class DetailActivity extends Activity {
                 System.out.println(e);
             }
         });
+
+
+
+
         /*
         final LinearLayout myLayout
                 = (LinearLayout) findViewById(R.id.my_tweet_layout);

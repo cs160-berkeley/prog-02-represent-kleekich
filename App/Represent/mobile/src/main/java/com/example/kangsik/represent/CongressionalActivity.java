@@ -185,7 +185,7 @@ public class CongressionalActivity extends Activity {
 
                 //FOR ADAPTER
                 repListView = (ListView) findViewById(R.id.listViewRepresentatives);
-                repAdapter = new MyAdapter(getBaseContext(), reps);
+                repAdapter = new MyAdapter(CongressionalActivity.this, reps);
                 repListView.setAdapter(repAdapter);
                 repListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override
