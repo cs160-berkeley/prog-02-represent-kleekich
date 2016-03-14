@@ -4,5 +4,6 @@
     <string name="user_input">User Input</string>
     <string name="title_activity_detail">DetailActivity</string>
     <string name="voteViewTitle">2012 Presidential Vote</string>
+    <string name="tweet_id">Tweet ID</string>
 
 </resources>

@@ -107,19 +107,19 @@ public class MyAdapter extends ArrayAdapter<Representative> {
         TextView partyTextView = (TextView) theView.findViewById(R.id.partyTextView);
         TextView emailTextView = (TextView) theView.findViewById(R.id.emailTextView);
         TextView websiteTextView = (TextView) theView.findViewById(R.id.websiteTextView);
-        TextView tweetTextView = (TextView) theView.findViewById(R.id.tweetTextView);
+
 
         String name = rep.title +". "+ rep.firstName + " "+ rep.lastName;
         String party = rep.party;
         String email = rep.email;
         String website = rep.website;
-        String tweet = rep.tweet;
+
 
         nameTextView.setText(name);
         partyTextView.setText(party);
         emailTextView.setText(email);
         websiteTextView.setText(website);
-        tweetTextView.setText(tweet);
+
 
         // update Tweet view if twittter ID is not null
         /*
@@ -139,7 +139,7 @@ public class MyAdapter extends ArrayAdapter<Representative> {
 
     public void updateTweetViewAndImageView(View rowView, String twitterId) {
         final TextView tweetTextView = (TextView) rowView.findViewById(R.id.tweetTextView);
-        final CircleNetworkImageView imageView = (CircleNetworkImageView) rowView.findViewById(R.id.imageViewPicture);
+        //final CircleNetworkImageView imageView = (CircleNetworkImageView) rowView.findViewById(R.id.imageViewPicture);
         //ImageView in row
         //ImageView pictureView = (ImageView) rowView.findViewById(R.id.imageViewPicture);
         new UsersTwitterApiClient(guestAppSession).getUsersService().show(null, twitterId, true,
@@ -153,7 +153,7 @@ public class MyAdapter extends ArrayAdapter<Representative> {
                         tweetTextView.setText(tweet);
 
                         //extract profile photo
-                        imageView.setImageUrl(imageURL,mImageLoader);
+                        //imageView.setImageUrl(imageURL,mImageLoader);
                     }
                     @Override
                     public void failure(TwitterException exception) {

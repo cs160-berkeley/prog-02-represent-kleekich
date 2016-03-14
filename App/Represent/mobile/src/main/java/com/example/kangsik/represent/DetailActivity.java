@@ -4,6 +4,7 @@ package com.example.kangsik.represent;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
@@ -172,6 +173,10 @@ public class DetailActivity extends Activity {
                         email = object.getString("oc_email");
                         website = object.getString("website");
                         twitterId = object.getString("twitter_id");
+
+
+
+
                     }catch(JSONException e){
                         System.out.println("============");
                         System.out.println(e);
@@ -248,9 +253,19 @@ public class DetailActivity extends Activity {
 
 
 
-        //TWITTER
-        // MAYBE GOING INSIDE POST_EXECUTE
+        ConnectivityManager connMgr = (ConnectivityManager)getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
+        if (networkInfo != null && networkInfo.isConnected()) {
+            new DownloadWebpageTask().execute(stringUrlRepresentative);
+            new DownloadWebpageTask().execute(stringUrlCommittee);
+            new DownloadWebpageTask().execute(stringUrlBill);
+        } else {
+            System.out.println("==================================");
+            System.out.println("No network connection available.");
+            System.out.println("==================================");
+        }
 
+        //TWITTER
         TwitterCore.getInstance().logInGuest(new Callback<AppSession>() {
             @Override
             public void success(Result<AppSession> result) {
@@ -261,27 +276,23 @@ public class DetailActivity extends Activity {
                             public void success(Result<User> result) {
                                 // extract tweet text
                                 String tweet = result.data.status.text;
-                                Long tweetId = result.data.status.id;
-                                System.out.println(tweet);
+                                long tweetId = result.data.status.id;
+                                //R.string.tweet_id = (int)tweetId;
+                                ///Resources res = getResources();
+                                //String
+                                System.out.println(tweetId);
+                                System.out.println("========================");
+                                System.out.println("TWEET_ID: "+ tweetId);
+                                System.out.println("TWITTER_ID: "+twitterId);
+                                System.out.println("========================");
                                 /*
                                 final LinearLayout myLayout
                                         = (LinearLayout) findViewById(R.id.my_tweet_layout);
                                 myLayout.addView(new TweetView(DetailActivity.this, ));
                                 */
-                                final LinearLayout myLayout
-                                        = (LinearLayout) findViewById(R.id.my_tweet_layout);
-                                TweetUtils.loadTweet(tweetId, new Callback<Tweet>() {
-                                    @Override
-                                    public void success(Result<Tweet> result) {
-                                        TweetView tweetView = new TweetView(DetailActivity.this, result.data);
-                                        myLayout.addView(tweetView);
-                                    }
+                                final List<Long> tweetIds = Arrays.asList(tweetId);
+                                final LinearLayout myLayout = (LinearLayout) findViewById(R.id.my_tweet_layout);
 
-                                    @Override
-                                    public void failure(TwitterException exception) {
-                                        Log.d("TwitterKit", "Load Tweet failure", exception);
-                                    }
-                                });
                             }
 
                             @Override
@@ -296,188 +307,6 @@ public class DetailActivity extends Activity {
                 System.out.println(e);
             }
         });
-
-
-
-
-        /*
-        final LinearLayout myLayout
-                = (LinearLayout) findViewById(R.id.my_tweet_layout);
-
-        final List<Long> tweetIds = Arrays.asList(Long.toLong(twitterId);
-        TweetUtils.loadTweets(tweetIds, new Callback<Tweet>() {
-            @Override
-            public void success(Result<Tweet> result) {
-                for (Tweet tweet : result.data) {
-                    myLayout.addView(new TweetView(EmbeddedTweetsActivity.this, tweet));
-                }
-            }
-
-            @Override
-            public void failure(TwitterException exception) {
-                // Toast.makeText(...).show();
-            }
-        });
-        */
-        /*
-        TwitterApiClient twitterApiClient = TwitterCore.getInstance().getApiClient();
-        TwitterSession session = Twitter.getSessionManager().getActiveSession();
-        TwitterAuthToken authToken = session.getAuthToken();
-        String token = authToken.token;
-        String secret = authToken.secret;
-        final StatusesService statusesService = twitterApiClient.getStatusesService();
-
-        TwitterCore.getInstance().logInGuest(new Callback<AppSession>() {
-            @Override
-            public void success(Result<AppSession> appSessionResult) {
-                AppSession session = appSessionResult.data;
-                TwitterApiClient twitterApiClient = TwitterCore.getInstance().getApiClient(session);
-                twitterApiClient.getStatusesService().userTimeline(null, "elonmusk", 10, null, null, false, false, false, true, new Callback<List<Tweet>>() {
-                    @Override
-                    public void success(Result<List<Tweet>> listResult) {
-                        for (Tweet tweet : listResult.data) {
-                            Log.d("fabricstuff", "result: " + tweet.text + "  " + tweet.createdAt);
-                        }
-                    }
-
-                    @Override
-                    public void failure(TwitterException e) {
-                        e.printStackTrace();
-                    }
-                });
-            }
-
-            @Override
-            public void failure(TwitterException e) {
-                e.printStackTrace();
-            }
-        });
-
-        statusesService.show(524971209851543553L, null, null, null, new Callback<Tweet>() {
-            @Override
-            public void success(Result<Tweet> result) {
-                //Do something with result, which provides a Tweet inside of result.data
-            }
-
-            public void failure(TwitterException exception) {
-                //Do something on failure
-            }
-        });
-        */
-        /*
-        statusesService.show(524971209851543553L, null, null, null, new Callback<Tweet>() {
-            @Override
-            public void success(Result<Tweet> result) {
-                //Do something with result, which provides a Tweet inside of result.data
-
-            }
-
-            public void failure(TwitterException exception) {
-                //Do something on failure
-            }
-        });
-
-    */
-
-
-        /*
-        class MyTwitterApiClient extends TwitterApiClient {
-            public MyTwitterApiClient(TwitterSession session) {
-                super(session);
-            }
-
-
-            public CustomService getCustomService() {
-                return getService(CustomService.class);
-            }
-        }
-
-        // example users/show service endpoint
-        interface CustomService {
-            @GET("/1.1/users/show.json")
-            void show(@Query("user_id") long id, Callback<User> cb);
-        }
-*
-
-
-
-
-
-            @Override
-            public void failure(TwitterException e) {
-                e.printStackTrace();
-            }
-        });
-
-
-
-        class MyTwitterApiClient extends TwitterApiClient {
-            public MyTwitterApiClient(TwitterSession session) {
-                super(session);
-            }
-
-            public UsersService getUsersService() {
-                return getService(UsersService.class);
-            }
-        }
-
-        interface UsersService {
-            @GET("/1.1/users/show.json")
-            void show(@Query("user_id") Long userId,
-                      @Query("screen_name") String screenName,
-                      @Query("include_entities") Boolean includeEntities,
-                      Callback<User> cb);
-        }
-
-        new MyTwitterApiClient(session).getUsersService().show(12L, null, true,
-                new Callback<User>() {
-                    @Override
-                    public void success(Result<User> result) {
-                        Log.d("twittercommunity", "user's profile url is "
-                                + result.data.profileImageUrlHttps);
-                    }
-
-                    @Override
-                    public void failure(TwitterException exception) {
-                        Log.d("twittercommunity", "exception is " + exception);
-                    }
-                });
-
-
-        TwitterSession session =
-                Twitter.getSessionManager().getActiveSession();
-        Twitter.getApiClient(session).getAccountService()
-                .verifyCredentials(true, false, new Callback<User>() {
-
-
-                    @Override
-                    public void success(Result<User> userResult) {
-
-                        User user = userResult.data;
-                        twitterImage = user.profileImageUrl;
-
-                    }
-
-                    @Override
-                    public void failure(TwitterException e) {
-
-                    }
-
-                });
-
-*/
-        ConnectivityManager connMgr = (ConnectivityManager)
-                getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
-        if (networkInfo != null && networkInfo.isConnected()) {
-            new DownloadWebpageTask().execute(stringUrlRepresentative);
-            new DownloadWebpageTask().execute(stringUrlCommittee);
-            new DownloadWebpageTask().execute(stringUrlBill);
-        } else {
-            System.out.println("==================================");
-            System.out.println("No network connection available.");
-            System.out.println("==================================");
-        }
 
 
         //mainView Button/Back Button

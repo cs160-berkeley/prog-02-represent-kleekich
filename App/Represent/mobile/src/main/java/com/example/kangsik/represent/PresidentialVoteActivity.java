@@ -29,8 +29,7 @@ import java.net.URL;
  * Created by Kangsik on 3/3/16.
  */
 public class PresidentialVoteActivity extends Activity {
-    private String stringUrlLL;
-    private String stringUrlZ;
+    private String stringUrl;
     private String zipcode;
     private String longitude;
     private String latitude;
@@ -43,6 +42,7 @@ public class PresidentialVoteActivity extends Activity {
     private String countyLong;
     private String countyShort;
     private String countyData;
+    private String stateData;
 
     private TextView personATextView;
     private TextView personBTextView;
@@ -50,6 +50,7 @@ public class PresidentialVoteActivity extends Activity {
     private TextView percentBTextView;
     private TextView stateTextView;
     private TextView districtTextView;
+
 
     private DownloadWebpageTask authTask;
 
@@ -80,22 +81,9 @@ public class PresidentialVoteActivity extends Activity {
             try{
             JSONObject jasonObject = new JSONObject(response);
             JSONArray jsonArrayAPI = jasonObject.optJSONArray("results");
-
-            //If result contains only one JSON object, zipcode is used.
-            //Therefore, you need to get latitude and longitude
             int arraySize = jsonArrayAPI.length();
-            if(arraySize==1){
-                JSONObject objectAPI = jsonArrayAPI.getJSONObject(0);
-                latitude = objectAPI.getJSONObject("geometry").getJSONObject("location").getString("lng");
-                longitude = objectAPI.getJSONObject("geometry").getJSONObject("location").getString("lat");
-
-            }
-
-            //we use longitude, latitude
-            else{
                 try {
                     if(response.contains("administrative_area_level_2")) {
-                        Gson gson = new Gson();
                         for (int i = 0; i < arraySize; i++) {
                             JSONArray addressComponentsArray = jsonArrayAPI.getJSONObject(i).getJSONArray("address_components");
                             for (int j = 0; j < addressComponentsArray.length(); j++) {
@@ -105,53 +93,76 @@ public class PresidentialVoteActivity extends Activity {
                                     String type = types.getString(k);
                                     if (type.equals("administrative_area_level_2")) {
                                         countyShort = component.getString("short_name");
-                                    }
-                                    if (types.equals("administrative_area_level_1")) {
+                                    }else if (type.equals("administrative_area_level_1")) {
                                         state = component.getString("short_name");
                                     }
                                 }
                             }
                         }
+
+                        try {
+                            InputStream stream = getAssets().open("election-county-2012.json");
+                            int size = stream.available();
+                            byte[] buffer = new byte[size];
+                            stream.read(buffer);
+                            stream.close();
+                            String jsonString = new String(buffer, "UTF-8");
+                            JSONArray jsonArrayDATA = new JSONArray(jsonString);
+                            for (int i = 0; i < jsonArrayDATA.length(); i++) {
+                                JSONObject j = jsonArrayDATA.getJSONObject(i);
+                                countyData = j.getString("county-name");
+                                //if(countyData.equals(countyShort) | countyData.equals(countyLong) ){
+                                if (countyData.equals(countyShort)) {
+                                    System.out.println("found it! obama-percentage" + j.get("obama-percentage") + " romney-percentage " + j.get("romney-percentage"));
+                                    percentObama = j.getString("obama-percentage");
+                                    percentRomney = j.getString("romney-percentage");
+
+                                }
+                            }
+                        } catch (IOException e) {
+                            System.out.println("====================");
+                            System.out.println("READING VOTE FILE ERROR");
+                            System.out.println("====================");
+                        }
+                        //IF COUNTY NOT FOUND
                     }else{
-                        countyShort = "COUNTY NOT FOUND WITH THIS LOCATION";
-                    }
-
-                    System.out.println("=================");
-                    System.out.println("COUNTY: " + countyShort);
-                    System.out.println("STATE: " + state);
-                    System.out.println("=================");
-                    try {
-                        InputStream stream = getAssets().open("election-county-2012.json");
-                        int size = stream.available();
-                        byte[] buffer = new byte[size];
-                        stream.read(buffer);
-                        stream.close();
-                        String jsonString = new String(buffer, "UTF-8");
-
-
+                        for (int i = 0; i < arraySize; i++) {
+                            JSONArray addressComponentsArray = jsonArrayAPI.getJSONObject(i).getJSONArray("address_components");
+                            for (int j = 0; j < addressComponentsArray.length(); j++) {
+                                JSONObject component = addressComponentsArray.getJSONObject(j);
+                                JSONArray types = component.getJSONArray("types");
+                                for (int k = 0; k < types.length(); k++) {
+                                    String type = types.getString(k);
+                                    if (type.equals("locality")) {
+                                        countyShort = component.getString("short_name");
+                                    }
+                                    else if (type.equals("administrative_area_level_1")) {
+                                        state = component.getString("short_name");
+                                    }
+                                }
+                            }
+                        }
                         try {
+                            InputStream stream = getAssets().open("election-county-2012.json");
+                            int size = stream.available();
+                            byte[] buffer = new byte[size];
+                            stream.read(buffer);
+                            stream.close();
+                            String jsonString = new String(buffer, "UTF-8");
                             JSONArray jsonArrayDATA = new JSONArray(jsonString);
                             for (int i = 0; i < jsonArrayDATA.length(); i++) {
                                 JSONObject j = jsonArrayDATA.getJSONObject(i);
-                                countyData = j.getString("county-name");
-                                //if(countyData.equals(countyShort) | countyData.equals(countyLong) ){
-                                if (countyData.equals(countyShort)) {
+                                stateData = j.getString("state-postal");
+                                if(stateData.equals(state)){
                                     System.out.println("found it! obama-percentage" + j.get("obama-percentage") + " romney-percentage " + j.get("romney-percentage"));
                                     percentObama = j.getString("obama-percentage");
                                     percentRomney = j.getString("romney-percentage");
-
                                 }
                             }
-                        } catch (JSONException e) {
-                            System.out.println("====================");
-                            System.out.println("JSON ARRAY ERROR INNER MOST");
-                            System.out.println("====================");
-                        }
 
-                    } catch (IOException e) {
-                        System.out.println("====================");
-                        System.out.println("READING VOTE FILE ERROR");
-                        System.out.println("====================");
+                        }catch(IOException ie){
+
+                        }
                     }
 
                     personATextView.setText("Obama");
@@ -168,75 +179,8 @@ public class PresidentialVoteActivity extends Activity {
                     System.out.println("JSON OBJECT ERROR!!");
                     System.out.println("================");
                 }
-
-                //we need to get longitude, latitude
-            }/*else {
-                try {
-                    JSONObject jasonObject = new JSONObject(response);
-                    JSONArray jsonArrayAPI = jasonObject.optJSONArray("results");
-
-                    JSONObject objectAPI = jsonArrayAPI.getJSONObject(0);
-                    //GETTING JSONObject contains county & state
-                    JSONObject jsonObjectCounty = objectAPI.optJSONArray("address_components").getJSONObject(3);
-                    JSONObject jsonObjectState = objectAPI.optJSONArray("address_components").getJSONObject(4);
-                    //GET county
-                    //countyLong = jsonObjectCounty.getString("long_name");
-                    countyShort = jsonObjectCounty.getString("short_name");
-                    state = jsonObjectState.getString("short_name");
-                    System.out.println("=================");
-                    System.out.println("COUNTY: " + countyShort);
-                    System.out.println("STATE: " + state);
-                    System.out.println("=================");
-                    try {
-                        InputStream stream = getAssets().open("election-county-2012.json");
-                        int size = stream.available();
-                        byte[] buffer = new byte[size];
-                        stream.read(buffer);
-                        stream.close();
-                        String jsonString = new String(buffer, "UTF-8");
-
-
-                        try {
-                            JSONArray jsonArrayDATA = new JSONArray(jsonString);
-                            for (int i = 0; i < jsonArrayDATA.length(); i++) {
-                                JSONObject j = jsonArrayDATA.getJSONObject(i);
-                                countyData = j.getString("county-name");
-                                //if(countyData.equals(countyShort) | countyData.equals(countyLong) ){
-                                if (countyData.equals(countyShort)) {
-                                    System.out.println("found it! obama-percentage" + j.get("obama-percentage") + " romney-percentage " + j.get("romney-percentage"));
-                                    percentObama = j.getString("obama-percentage");
-                                    percentRomney = j.getString("romney-percentage");
-
-                                }
-                            }
-                        } catch (JSONException e) {
-                            System.out.println("====================");
-                            System.out.println("JSON ARRAY ERROR INNER MOST");
-                            System.out.println("====================");
-                        }
-
-                    } catch (IOException e) {
-                        System.out.println("====================");
-                        System.out.println("READING VOTE FILE ERROR");
-                        System.out.println("====================");
-                    }
-
-                    personATextView.setText("Obama");
-                    personBTextView.setText("Romney");
-                    percentATextView.setText(percentObama);
-                    percentBTextView.setText(percentRomney);
-                    stateTextView.setText(state);
-                    districtTextView.setText(countyShort);
-
-                } catch (JSONException e) {
-                    // Appropriate error handling code
-                    System.out.println("================");
-                    System.out.println("JSON OBJECT ERROR!!");
-                    System.out.println("================");
-                }
-*/
             }catch(JSONException je){
-
+                System.out.println(je.getMessage());
             }
 
         }
@@ -283,12 +227,12 @@ public class PresidentialVoteActivity extends Activity {
         latitude = extras.getString("LATITUDE");
 
         //if user used current location use latitude and longitude to get JSON array
-        stringUrlLL = "https://maps.googleapis.com/maps/api/geocode/json?latlng="+latitude+","+longitude+"&sensor=true";
-        stringUrlZ = "https://maps.googleapis.com/maps/api/geocode/json?address="+zipcode+"&region=us";
 
         if(!zipcode.equals("-1")){
             useZipCode = true;
+            stringUrl = "https://maps.googleapis.com/maps/api/geocode/json?address="+zipcode+"&region=us";
         }else{
+            stringUrl = "https://maps.googleapis.com/maps/api/geocode/json?latlng="+latitude+","+longitude+"&sensor=true";
             useZipCode = false;
         }
 
@@ -301,12 +245,10 @@ public class PresidentialVoteActivity extends Activity {
         NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
         if (networkInfo != null && networkInfo.isConnected()) {
             authTask = new DownloadWebpageTask();
-            authTask.execute(stringUrlZ);
-
+            authTask.execute(stringUrl);
             if (authTask != null && authTask.getStatus() == AsyncTask.Status.FINISHED) {
                 //START YOUR NEW TASK HERE
-                System.out.println("a;lsgja;lsgja;lgja;lkgj");
-                new DownloadWebpageTask().execute(stringUrlLL);
+
             }
             else
             {

@@ -42,6 +42,7 @@ public class CongressionalActivity extends Activity {
     private String latitude;
 
     private String stringUrl;
+    private String stringUrlGetLL;
 
     private final static String SUNLIGHT_API_KEY = "45a993c1ef534c45b4b15bfc6ead5422";
     private static final String TWITTER_KEY = "4Jv7s0n2tUqSdM4FsiQ2aZGuw";
@@ -50,7 +51,7 @@ public class CongressionalActivity extends Activity {
 
     private TextView textViewSearchMode;
     private TextView textViewFoundBy;
-    private TextView textViewResponse;
+
 
     //FOR REPRESENTATIVE
     private String name;
@@ -69,6 +70,9 @@ public class CongressionalActivity extends Activity {
     private String tweet;
     private String location;
     private String watchZIPCODE;
+    private Boolean useZipCode;
+
+    private ArrayList<Representative> reps;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,16 +93,18 @@ public class CongressionalActivity extends Activity {
         watchZIPCODE = extras.getString("WATCH_ZIP");
 
         if(zipcode.equals("-1")){
+            useZipCode = false;
             textViewSearchMode.setText("Current Location");
             selectedLocation = "Current Location";
             //BUILD URL
             stringUrl = "http://congress.api.sunlightfoundation.com/legislators/locate?latitude=" + latitude + "&longitude="+ longitude +"&apikey=" + SUNLIGHT_API_KEY;
         }else{
+            useZipCode = true;
             textViewSearchMode.setText("ZIP: "+ zipcode);
             selectedLocation = zipcode;
             //BUILD URL
             stringUrl = "http://congress.api.sunlightfoundation.com/legislators/locate?zip=" + zipcode + "&apikey=" + SUNLIGHT_API_KEY;
-
+            stringUrlGetLL = "https://maps.googleapis.com/maps/api/geocode/json?address="+zipcode+"&region=us";
         }
 
         // Uses AsyncTask to create a task away from the main UI thread. This task takes a
@@ -126,92 +132,96 @@ public class CongressionalActivity extends Activity {
                 if(response == null) {
                     response = "THERE WAS AN ERROR";
                 }
-                Log.i("INFO", response);
+
+                    Log.i("INFO", response);
 
 
-                //Array For myAdapter & JSON string for phone to watch service
-                ArrayList<Representative> reps = new ArrayList<Representative>();
-                //For Watch Intent, We send LOCATION, NUM_REPRESENTATIVES, and REPRESENTATIVE1, REPRESENTATIVE2 ...
-                Intent watchIntent = new Intent(getBaseContext(), PhoneToWatchService.class);
+                    //Array For myAdapter & JSON string for phone to watch service
+                    reps = new ArrayList<Representative>();
+                    //For Watch Intent, We send LOCATION, NUM_REPRESENTATIVES, and REPRESENTATIVE1, REPRESENTATIVE2 ...
+                    Intent watchIntent = new Intent(getBaseContext(), PhoneToWatchService.class);
 
-                try {
-                    JSONObject jasonObject = new JSONObject(response);
-                    JSONArray jsonArray = jasonObject.optJSONArray("results");
-                    Representative representative;
-                    for(int i=0; i < jsonArray.length(); i++) {
-                        JSONObject object = jsonArray.getJSONObject(i);
-                        bid = object.getString("bioguide_id");
-                        first_name = object.getString("first_name");
-                        last_name = object.getString("last_name");
-                        party = object.getString("party");
-                        title = object.getString("title");
-                        email = object.getString("oc_email");
-                        website = object.getString("website");
-                        endTerm = object.getString("term_end");
-                        committee = "";
-                        recentBill = "";
-                        recentBillIntroducedOn = "";
-                        twitterId = object.getString("twitter_id");
-                        tweet = "";
-                        location = selectedLocation;
-                        switch(party){
-                            case "D":
-                                party = "Democrat";
-                                break;
-                            case "R":
-                                party = "Republican";
-                                break;
-                            default:
-                                party = "Independent";
+                    try {
+                        JSONObject jasonObject = new JSONObject(response);
+                        JSONArray jsonArray = jasonObject.optJSONArray("results");
+
+
+                        System.out.println("IMMAMAMMAMAMAMAMAMAM");
+                        Representative representative;
+                        for (int i = 0; i < jsonArray.length(); i++) {
+                            JSONObject object = jsonArray.getJSONObject(i);
+                            bid = object.getString("bioguide_id");
+                            first_name = object.getString("first_name");
+                            last_name = object.getString("last_name");
+                            party = object.getString("party");
+                            title = object.getString("title");
+                            email = object.getString("oc_email");
+                            website = object.getString("website");
+                            endTerm = object.getString("term_end");
+                            committee = "";
+                            recentBill = "";
+                            recentBillIntroducedOn = "";
+                            twitterId = object.getString("twitter_id");
+                            tweet = "";
+                            location = selectedLocation;
+                            switch (party) {
+                                case "D":
+                                    party = "Democrat";
+                                    break;
+                                case "R":
+                                    party = "Republican";
+                                    break;
+                                default:
+                                    party = "Independent";
+                            }
+                            name = title + ". " + first_name + " " + last_name;
+
+                            representative = new Representative(bid, first_name, last_name, party, title, email, website, endTerm, committee, recentBill, recentBillIntroducedOn, twitterId, tweet, location);
+                            reps.add(representative);
                         }
-                        name = title + ". " + first_name + " " + last_name;
 
-                        representative = new Representative(bid,first_name,last_name,party,title,email,website,endTerm,committee,recentBill,recentBillIntroducedOn, twitterId, tweet,location);
-                        reps.add(representative);
+
+                        //For multiple representatives
+                        Gson gson = new Gson();
+                        String jsonStringArray = gson.toJson(reps);
+                        watchIntent.putExtra("JSON_STRING_ARRAY", jsonStringArray);
+
+                        //FOR ADAPTER
+
+                        repAdapter = new MyAdapter(CongressionalActivity.this, reps);
+                        repListView.setAdapter(repAdapter);
+                        repListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                            @Override
+                            public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
+                                Intent detail = new Intent(cCtx, DetailActivity.class);
+                                Bundle extras = new Bundle();
+                                Representative rep = (Representative) adapterView.getItemAtPosition(position);
+                                bid = rep.bid;
+                                //twitterId = rep.twitterId;
+
+                                extras.putString("BID", bid);
+                                extras.putString("NAME", name);
+                                extras.putString("PARTY", party);
+                                extras.putString("EMAIL", email);
+                                extras.putString("WEBSITE", website);
+                                extras.putString("END_TERM", endTerm);
+                                extras.putString("TWITTER_ID", twitterId);
+
+                                detail.putExtras(extras);
+                                startActivity(detail);
+                            }
+                        });
+                        //For Watch
+                        startService(watchIntent);
+                        // }
+                    } catch (JSONException e) {
+                        // Appropriate error handling code
+                        System.out.println("================");
+                        System.out.println("JSON OBJECT ERROR!!");
+                        System.out.println("================");
                     }
 
-
-                    //For multiple representatives
-                    Gson gson = new Gson();
-                    String jsonStringArray  = gson.toJson(reps);
-                    watchIntent.putExtra("JSON_STRING_ARRAY", jsonStringArray);
-
-                } catch (JSONException e) {
-                    // Appropriate error handling code
-                    System.out.println("================");
-                    System.out.println("JSON OBJECT ERROR!!");
-                    System.out.println("================");
-                }
-
-                //FOR ADAPTER
-                repListView = (ListView) findViewById(R.id.listViewRepresentatives);
-                repAdapter = new MyAdapter(CongressionalActivity.this, reps);
-                repListView.setAdapter(repAdapter);
-                repListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                    @Override
-                    public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
-                        Intent detail = new Intent(cCtx, DetailActivity.class);
-                        Bundle extras = new Bundle();
-                        Representative rep = (Representative) adapterView.getItemAtPosition(position);
-                        bid = rep.bid;
-                        //twitterId = rep.twitterId;
-
-                        extras.putString("BID", bid);
-                        extras.putString("NAME", name);
-                        extras.putString("PARTY", party);
-                        extras.putString("EMAIL", email);
-                        extras.putString("WEBSITE", website);
-                        extras.putString("END_TERM", endTerm);
-                        extras.putString("TWITTER_ID", twitterId);
-
-                        detail.putExtras(extras);
-                        startActivity(detail);
-                    }
-                });
-                //For Watch
-                startService(watchIntent);
-
-
+                    //Get Longitude and Latitude for Vote View
 
             }
 
@@ -246,6 +256,7 @@ public class CongressionalActivity extends Activity {
 
         // When user clicks button, calls AsyncTask.
         // Before attempting to fetch the URL, makes sure that there is a network connection.
+        repListView = (ListView) findViewById(R.id.listViewRepresentatives);
 
         ConnectivityManager connMgr = (ConnectivityManager)
                 getSystemService(Context.CONNECTIVITY_SERVICE);
