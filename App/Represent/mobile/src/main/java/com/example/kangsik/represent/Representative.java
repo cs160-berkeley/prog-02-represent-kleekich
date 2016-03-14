@@ -22,6 +22,7 @@ public class Representative{
     public String tweet;
     public String location;
 
+
     public Representative(String id, String fn, String ln, String pa, String tit, String em, String w, String en, String c, String b, String bi, String tId, String t, String l){
         bid = id;
         firstName = fn;

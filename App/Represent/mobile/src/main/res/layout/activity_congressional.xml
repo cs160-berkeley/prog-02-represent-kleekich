@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent" android:layout_height="match_parent" android:orientation="vertical"
-    android:weightSum="1">
+    android:weightSum="1"
+    android:background="#c2d4d8">
 
     <LinearLayout
         android:orientation="horizontal"
@@ -11,15 +12,16 @@
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Back"
-            android:layout_gravity="right"
+            android:text="&lt;Back"
+            android:layout_marginLeft="5dp"
             android:id="@+id/buttonMain" />
 
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="2012 Result"
-            android:id="@+id/voteViewButton" />
+            android:id="@+id/voteViewButton"
+            android:layout_marginLeft="150dp"/>
     </LinearLayout>
 
     <LinearLayout android:layout_width="match_parent" android:layout_height="50dp" android:orientation="horizontal"
@@ -29,13 +31,13 @@
             android:layout_width="173dp"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="Representative Found By"
+            android:text="Found By"
             android:id="@+id/textViewFoundBy" />
 
         <TextView
-            android:layout_width="181dp"
-            android:layout_height="33dp"
-            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:layout_width="173dp"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
             android:text="@string/user_input"
             android:id="@+id/userInput" />
     </LinearLayout>
@@ -44,6 +46,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/listViewRepresentatives"
-        android:layout_marginTop="88dp" />
+         />
+
 
 </LinearLayout>

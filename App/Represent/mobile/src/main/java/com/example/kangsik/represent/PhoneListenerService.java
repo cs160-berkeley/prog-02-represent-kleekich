@@ -49,9 +49,10 @@ public class PhoneListenerService extends WearableListenerService {
             Bundle extras = new Bundle();
             congressionalIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             //you need to add this flag since you're starting a new activity from a service
-            String randomZipCode = messageEvent.getPath().substring(1);
+            String location = new String(messageEvent.getData(), StandardCharsets.UTF_8);
 
-            congressionalIntent.putExtra("userInputMessage", randomZipCode);
+            congressionalIntent.putExtra("RANDOM_LOCATION", location);
+            congressionalIntent.putExtra("FROM_WATCH_SERVICE", true);
 
             startActivity(congressionalIntent);
         }

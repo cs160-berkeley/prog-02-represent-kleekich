@@ -83,6 +83,8 @@ public class PresidentialVoteActivity extends Activity {
             JSONArray jsonArrayAPI = jasonObject.optJSONArray("results");
             int arraySize = jsonArrayAPI.length();
                 try {
+                    //if Use latlng,
+
                     if(response.contains("administrative_area_level_2")) {
                         for (int i = 0; i < arraySize; i++) {
                             JSONArray addressComponentsArray = jsonArrayAPI.getJSONObject(i).getJSONArray("address_components");
@@ -93,13 +95,15 @@ public class PresidentialVoteActivity extends Activity {
                                     String type = types.getString(k);
                                     if (type.equals("administrative_area_level_2")) {
                                         countyShort = component.getString("short_name");
+                                        System.out.println("=================");
+                                        System.out.println("COUNTY FROM QUERY: "+countyShort);
+                                        System.out.println("=================");
                                     }else if (type.equals("administrative_area_level_1")) {
                                         state = component.getString("short_name");
                                     }
                                 }
                             }
                         }
-
                         try {
                             InputStream stream = getAssets().open("election-county-2012.json");
                             int size = stream.available();
@@ -108,17 +112,26 @@ public class PresidentialVoteActivity extends Activity {
                             stream.close();
                             String jsonString = new String(buffer, "UTF-8");
                             JSONArray jsonArrayDATA = new JSONArray(jsonString);
+
                             for (int i = 0; i < jsonArrayDATA.length(); i++) {
                                 JSONObject j = jsonArrayDATA.getJSONObject(i);
                                 countyData = j.getString("county-name");
-                                //if(countyData.equals(countyShort) | countyData.equals(countyLong) ){
-                                if (countyData.equals(countyShort)) {
+                                System.out.println("COUNTY FROM DATA: "+countyData);
+                                if (countyShort.contains(countyData)) {
                                     System.out.println("found it! obama-percentage" + j.get("obama-percentage") + " romney-percentage " + j.get("romney-percentage"));
                                     percentObama = j.getString("obama-percentage");
                                     percentRomney = j.getString("romney-percentage");
-
+                                    break;
                                 }
                             }
+
+
+                            personATextView.setText("Obama");
+                            personBTextView.setText("Romney");
+                            percentATextView.setText(percentObama);
+                            percentBTextView.setText(percentRomney);
+                            stateTextView.setText(state);
+                            districtTextView.setText(countyShort+ ", ");
                         } catch (IOException e) {
                             System.out.println("====================");
                             System.out.println("READING VOTE FILE ERROR");
@@ -157,20 +170,22 @@ public class PresidentialVoteActivity extends Activity {
                                     System.out.println("found it! obama-percentage" + j.get("obama-percentage") + " romney-percentage " + j.get("romney-percentage"));
                                     percentObama = j.getString("obama-percentage");
                                     percentRomney = j.getString("romney-percentage");
+                                    break;
                                 }
                             }
+                            personATextView.setText("Obama");
+                            personBTextView.setText("Romney");
+                            percentATextView.setText(percentObama);
+                            percentBTextView.setText(percentRomney);
+                            stateTextView.setText(state);
+                            districtTextView.setText(countyShort+ ", ");
+
 
                         }catch(IOException ie){
 
                         }
                     }
 
-                    personATextView.setText("Obama");
-                    personBTextView.setText("Romney");
-                    percentATextView.setText(percentObama);
-                    percentBTextView.setText(percentRomney);
-                    stateTextView.setText(state);
-                    districtTextView.setText(countyShort);
 
 
                 } catch (JSONException e) {

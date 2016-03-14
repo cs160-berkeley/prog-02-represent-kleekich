@@ -46,10 +46,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
     private static int FATEST_INTERVAL = 5000;
     private static int DISPLACEMENT = 10;
 
-    //FOR VIEW
-    private TextView textViewCurrentLocation;
-    private Button buttonShowLocation;
-    private Button buttonStartLocationUpdates;
+
     private EditText editTextZipCode;
 
     private static final String TAG = "myMessage";
@@ -65,10 +62,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
         setContentView(R.layout.activity_main);
         Log.i(TAG, "onCreate");
 
-        //FOR VIEW
-        textViewCurrentLocation = (TextView) findViewById(R.id.textViewCurrentLocation);
-        buttonStartLocationUpdates = (Button) findViewById(R.id.buttonStartLocationUpdates);
-        buttonShowLocation = (Button) findViewById(R.id.buttonShowLocation);
+
 
         //Sunlight Foundation
 
@@ -87,26 +81,6 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
             createLocationRequest();
         }
 
-        buttonShowLocation.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View v) {
-                mLastLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
-
-                double latitude = mLastLocation.getLatitude();
-                double longitude = mLastLocation.getLongitude();
-
-                textViewCurrentLocation.setText(latitude + ", " + longitude);
-            }
-        });
-
-        buttonStartLocationUpdates.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View v) {
-                /*
-                togglePeriodLocationUpdates();
-                */
-            }
-        });
 
 
         Button enterButton = (Button)findViewById(R.id.enterButton);
@@ -152,6 +126,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
                 congressionalIntent.putExtra("ZIPCODE", zipCodeInputString);
                 congressionalIntent.putExtra("LATITUDE", "");
                 congressionalIntent.putExtra("LONGITUDE", "");
+                congressionalIntent.putExtra("FROM_WATCH_SERVICE",false);
 
                 //For Watch
                 //watchIntent.putExtra("LOCATION", zipCodeInputString);
@@ -162,7 +137,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
                 double latitude = mLastLocation.getLatitude();
                 double longitude = mLastLocation.getLongitude();
 
-                textViewCurrentLocation.setText(latitude + ", " + longitude);
+
 
                 congressionalIntent.putExtra("ZIPCODE", "-1");
                 congressionalIntent.putExtra("LATITUDE",Double.toString(latitude) );

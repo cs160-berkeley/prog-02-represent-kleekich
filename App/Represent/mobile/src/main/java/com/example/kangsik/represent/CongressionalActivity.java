@@ -7,6 +7,7 @@ package com.example.kangsik.represent;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.location.Location;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
@@ -20,6 +21,9 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -69,8 +73,8 @@ public class CongressionalActivity extends Activity {
     private String recentBillIntroducedOn;
     private String tweet;
     private String location;
-    private String watchZIPCODE;
-    private Boolean useZipCode;
+
+
 
     private ArrayList<Representative> reps;
 
@@ -90,22 +94,37 @@ public class CongressionalActivity extends Activity {
         zipcode = extras.getString("ZIPCODE");
         longitude = extras.getString("LONGITUDE");
         latitude = extras.getString("LATITUDE");
-        watchZIPCODE = extras.getString("WATCH_ZIP");
+        Boolean fromWatchService= extras.getBoolean("FROM_WATCH_SERVICE");
+        if(fromWatchService){
 
-        if(zipcode.equals("-1")){
-            useZipCode = false;
-            textViewSearchMode.setText("Current Location");
-            selectedLocation = "Current Location";
-            //BUILD URL
+            String jsonStringObject = extras.getString("LOCATION");
+            Gson gson = new Gson();
+            JsonParser parser = new JsonParser();
+            JsonObject resultJsonLocation = parser.parse(jsonStringObject).getAsJsonObject();
+            RandomLocation randomLocation = gson.fromJson(resultJsonLocation, RandomLocation.class);
+            zipcode = randomLocation.zipcode;
+            latitude = randomLocation.lat;
+            longitude = randomLocation.lng;
+
+
+            textViewSearchMode.setText("Random ZIP: "+ zipcode);
             stringUrl = "http://congress.api.sunlightfoundation.com/legislators/locate?latitude=" + latitude + "&longitude="+ longitude +"&apikey=" + SUNLIGHT_API_KEY;
         }else{
-            useZipCode = true;
-            textViewSearchMode.setText("ZIP: "+ zipcode);
-            selectedLocation = zipcode;
-            //BUILD URL
-            stringUrl = "http://congress.api.sunlightfoundation.com/legislators/locate?zip=" + zipcode + "&apikey=" + SUNLIGHT_API_KEY;
-            stringUrlGetLL = "https://maps.googleapis.com/maps/api/geocode/json?address="+zipcode+"&region=us";
+            if(zipcode.equals("-1")){
+                textViewSearchMode.setText("Current Location");
+                selectedLocation = "Current Location";
+                //BUILD URL
+                stringUrl = "http://congress.api.sunlightfoundation.com/legislators/locate?latitude=" + latitude + "&longitude="+ longitude +"&apikey=" + SUNLIGHT_API_KEY;
+            }else{
+                textViewSearchMode.setText("ZIP: "+ zipcode);
+                selectedLocation = zipcode;
+                //BUILD URL
+                stringUrl = "http://congress.api.sunlightfoundation.com/legislators/locate?zip=" + zipcode + "&apikey=" + SUNLIGHT_API_KEY;
+            }
         }
+
+
+
 
         // Uses AsyncTask to create a task away from the main UI thread. This task takes a
         // URL string and uses it to create an HttpUrlConnection. Once the connection

@@ -66,14 +66,16 @@ import java.util.List;
         @Override
         public int onStartCommand(Intent intent, int flags, int startId) {
             Bundle extras =intent.getExtras();
-            location = extras.getString("LOCATION");
+            location = extras.getString("JSON_STRING_LOCATION");
+
+
             new Thread(new Runnable() {
                 @Override
                 public void run() {
                     //first, connect to the apiclient
                     mWatchApiClient.connect();
                     //now that you're connected, send a massage with the cat name
-                    sendMessage("/" + location, location);
+                    sendMessage("/WATCH_TO_CONGRESSIONAL", location);
 
                 }
             }).start();

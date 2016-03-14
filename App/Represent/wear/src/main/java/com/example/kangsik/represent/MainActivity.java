@@ -6,6 +6,7 @@ import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
+import android.location.Location;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.wearable.view.DotsPageIndicator;
@@ -88,36 +89,34 @@ public class MainActivity extends FragmentActivity {
                 mAccel = mAccel * 0.9f + delta; // perform low-cut filter
 
                 if (mAccel > 12) {
+                    ArrayList<String> randomLatitudes = new ArrayList<String>();
+                    ArrayList<String> randomLongitudes = new ArrayList<String>();
                     ArrayList<String> randomZipCodes = new ArrayList<String>();
-                    ArrayList<String> randomLocations = new ArrayList<String>();
 
                     randomZipCodes.add("41144");
                     randomZipCodes.add("41616");
                     randomZipCodes.add("76528");
-
-
-                    randomLocations.add("38.53936002,-82.87818955");
-                    randomLocations.add("31.30998023,-97.5721608");
-                    randomLocations.add("37.30998023,-97.5721608");
-
+                    randomLatitudes.add("38.53936002");
+                    randomLongitudes.add("-82.87818955");
+                    randomLatitudes.add("37.30998023");
+                    randomLongitudes.add("-82.87818955");
+                    randomLatitudes.add("31.30998023");
+                    randomLongitudes.add("-97.5721608");
 
 
                     Random r = new Random();
                     int randomIndex = r.nextInt(3);
                     String randomZipCode = randomZipCodes.get(randomIndex);
-
+                    String randomLatitude = randomLatitudes.get(randomIndex);
+                    String randomLongitude = randomLongitudes.get(randomIndex);
 
                     Intent sendIntent = new Intent(getBaseContext(), WatchToPhoneCongressionalService.class);
-                    sendIntent.putExtra("ZIPCODE","-1");
-                    /*
-                    sendIntent.putExtra("LONGITUDE",longitude);
-                    sendIntent.putExtra("LATITUDE", latitude);
-                    */
+                    RandomLocation randomLocation = new RandomLocation(randomLatitude,randomLongitude,randomZipCode);
+                    Gson gson = new Gson();
+                    String jsonStringLocation = gson.toJson(randomLocation);
+                    sendIntent.putExtra("JSON_STRING_LOCATION", jsonStringLocation);
                     getBaseContext().startService(sendIntent);
 
-                    Intent intent = new Intent(getBaseContext(), MainActivity.class);
-                    intent.putExtra("LOCATION", randomZipCode);
-                    startActivity(intent);
                     reset();
                 }
             }
@@ -149,9 +148,6 @@ public class MainActivity extends FragmentActivity {
 
         representatives = new ArrayList<Representative>();
         jsonStringArray = extras.getString("JSON_STRING_ARRAY");
-        System.out.println("=============================");
-        System.out.println("jsonStringArray:" +jsonStringArray);
-        System.out.println("=============================");
         Gson gson = new Gson();
         JsonParser parser = new JsonParser();
         JsonArray resultsJsonArray = parser.parse(jsonStringArray).getAsJsonArray();
