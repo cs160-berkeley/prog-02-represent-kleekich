@@ -90,7 +90,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:id="@+id/my_tweet_layout">
-
+            <!--
             <FrameLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -104,6 +104,7 @@
                     twittersdk:tw__tweet_id=""/>
 
             </FrameLayout>
+            -->
         </LinearLayout>
 
     </LinearLayout>

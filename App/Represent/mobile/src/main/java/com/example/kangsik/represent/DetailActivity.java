@@ -291,7 +291,7 @@ public class DetailActivity extends Activity {
                                 myLayout.addView(new TweetView(DetailActivity.this, ));
                                 */
                                 final List<Long> tweetIds = Arrays.asList(tweetId);
-                                final LinearLayout myLayout = (LinearLayout) findViewById(R.id.my_tweet_layout);
+                                //final LinearLayout myLayout = (LinearLayout) findViewById(R.id.my_tweet_layout);
 
                             }
 

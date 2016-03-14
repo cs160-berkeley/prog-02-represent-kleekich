@@ -144,9 +144,6 @@ public class CongressionalActivity extends Activity {
                     try {
                         JSONObject jasonObject = new JSONObject(response);
                         JSONArray jsonArray = jasonObject.optJSONArray("results");
-
-
-                        System.out.println("IMMAMAMMAMAMAMAMAMAM");
                         Representative representative;
                         for (int i = 0; i < jsonArray.length(); i++) {
                             JSONObject object = jsonArray.getJSONObject(i);
