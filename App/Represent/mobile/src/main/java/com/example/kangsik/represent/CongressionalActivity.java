@@ -7,7 +7,6 @@ package com.example.kangsik.represent;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.location.Location;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
@@ -15,23 +14,18 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
-
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
 import com.twitter.sdk.android.Twitter;
 import com.twitter.sdk.android.core.AppSession;
+import com.twitter.sdk.android.core.Callback;
+import com.twitter.sdk.android.core.Result;
 import com.twitter.sdk.android.core.TwitterAuthConfig;
 import com.twitter.sdk.android.core.TwitterCore;
 import com.twitter.sdk.android.core.TwitterException;
-
-import com.twitter.sdk.android.core.Callback;
-import com.twitter.sdk.android.core.Result;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -356,5 +350,27 @@ public class CongressionalActivity extends Activity {
                 }
         );
 
+        // my_child_toolbar is defined in the layout file
+        /*
+        Toolbar myChildToolbar =
+                (Toolbar) findViewById(R.id.my_child_toolbar);
+        setSupportActionBar(myChildToolbar);
+
+        // Get a support ActionBar corresponding to this toolbar
+        ActionBar ab = getSupportActionBar();
+
+        // Enable the Up button
+        ab.setDisplayHomeAsUpEnabled(true);
+        // Use TaskStackBuilder to build the back stack and get the PendingIntent
+        PendingIntent pendingIntent =
+                TaskStackBuilder.create(this)
+                        // add all of DetailsActivity's parents to the stack,
+                        // followed by DetailsActivity itself
+                        .addNextIntentWithParentStack(upIntent)
+                        .getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
+
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(this);
+        builder.setContentIntent(pendingIntent);
+        */
     }
 }

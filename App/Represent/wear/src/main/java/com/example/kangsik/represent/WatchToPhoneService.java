@@ -43,6 +43,7 @@ public class WatchToPhoneService extends Service implements GoogleApiClient.Conn
     private GoogleApiClient mWatchApiClient;
     private List<Node> nodes = new ArrayList<>();
     final Service _this = this;
+    String bid = "";
 
 
     @Override
@@ -94,7 +95,7 @@ public class WatchToPhoneService extends Service implements GoogleApiClient.Conn
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         Bundle extras = intent.getExtras();
-        final String bid = extras.getString("BID");
+        this.bid = (String) extras.get("BID");
         new Thread(new Runnable() {
             @Override
             public void run() {

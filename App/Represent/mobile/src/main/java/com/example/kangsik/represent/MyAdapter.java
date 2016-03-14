@@ -39,8 +39,9 @@ import retrofit.http.Query;
 import java.io.InputStream;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
-
+import java.util.Map;
 
 
 public class MyAdapter extends ArrayAdapter<Representative> {
@@ -90,7 +91,7 @@ public class MyAdapter extends ArrayAdapter<Representative> {
         TextView partyTextView = (TextView) theView.findViewById(R.id.partyTextView);
         TextView emailTextView = (TextView) theView.findViewById(R.id.emailTextView);
         TextView websiteTextView = (TextView) theView.findViewById(R.id.websiteTextView);
-
+        ImageView imageViewParty = (ImageView) theView.findViewById(R.id.imageViewParty);
 
 
         String name = rep.title +". "+ rep.firstName + " "+ rep.lastName;
@@ -103,6 +104,27 @@ public class MyAdapter extends ArrayAdapter<Representative> {
         partyTextView.setText(party);
         emailTextView.setText(email);
         websiteTextView.setText(website);
+        Map<String, Integer> map = new HashMap<String, Integer>();
+        map.put("d", R.drawable.animal);
+        map.put("r", R.drawable.signs);
+        map.put("i", R.drawable.hat);
+
+        switch (party) {
+            case "Democrat":
+                imageViewParty.setImageResource(map.get("d"));
+                break;
+            case "Republican":
+                imageViewParty.setImageResource(map.get("r"));
+                break;
+            default:
+                imageViewParty.setImageResource(map.get("i"));
+        }
+
+        if(party.equals("Democratic")){
+
+        }
+
+
 
         if (rep.twitterId != null) {
             updateTweetViewAndImageView(theView, rep.twitterId);

@@ -14,104 +14,104 @@
             android:layout_height="wrap_content"
             android:text="Back"
             android:layout_gravity="right"
-            android:id="@+id/buttonCongressional" />
+            android:id="@+id/buttonCongressional"
+            android:layout_marginLeft="5dp" />
 
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Main"
-            android:id="@+id/buttonMain" />
+            android:id="@+id/buttonMain"
+            android:layout_marginLeft="175dp" />
 
 
     </LinearLayout>
 
     <FrameLayout
         android:layout_width="328dp"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="20dp">
 
         <com.android.volley.toolbox.NetworkImageView
-            android:layout_width="100dp"
-            android:layout_height="100dp"
+            android:layout_width="200dp"
+            android:layout_height="200dp"
             android:id="@+id/imageViewPicture"
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
-            android:layout_gravity="center_horizontal|top" />
+            android:layout_gravity="center_horizontal|top"
+            android:layout_marginBottom="10dp" />
     </FrameLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toStartOf="@+id/nameTextView"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:id="@+id/nameTextView"
+        android:layout_marginTop="7dp"
+        android:layout_marginBottom="7dp"
+        android:layout_gravity="center_horizontal" />
 
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="295dp">
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp">
 
-        <TextView
-            android:layout_width="100dp"
-            android:layout_height="wrap_content"
-            android:layout_toStartOf="@+id/nameTextView"
-            android:id="@+id/nameTextView"
-            android:text="1" />
-        <TextView
-            android:layout_width="100dp"
-            android:layout_height="wrap_content"
-            android:layout_toStartOf="@+id/partyTextView"
-            android:id="@+id/partyTextView"
-            android:text="1" />
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_toStartOf="@+id/partyTextView"
-            android:text="2"
+            android:id="@+id/partyTextView" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toStartOf="@+id/partyTextView"
             android:id="@+id/endDateTextView" />
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_toStartOf="@+id/endDateTextView"
-            android:text="3"
             android:id="@+id/committeeTextView" />
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_toStartOf="@+id/committeeTextView"
-            android:text="4"
             android:id="@+id/recentBillTextView" />
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_toStartOf="@+id/recentBillTextView"
-            android:text="5"
             android:id="@+id/emailTextView" />
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_toStartOf="@+id/emailTextView"
-            android:text="6"
             android:id="@+id/websiteTextView" />
+
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp">
+
+        <ImageView
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:id="@+id/imageView4"
+            android:layout_gravity="center_horizontal"
+            android:src="@drawable/twitter"/>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_toStartOf="@+id/emailTextView"
-            android:text="6"
-            android:id="@+id/tweetTextView" />
-        <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:id="@+id/my_tweet_layout">
-            <!--
-            <FrameLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                xmlns:android="http://schemas.android.com/apk/res/android"
-                xmlns:twittersdk="http://schemas.android.com/apk/res-auto">
-
-                <com.twitter.sdk.android.tweetui.TweetView
-                    android:id="@+id/bike_tweet"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    twittersdk:tw__tweet_id=""/>
-
-            </FrameLayout>
-            -->
-        </LinearLayout>
+            android:id="@+id/tweetTextView"
+            android:textStyle="italic"/>
 
     </LinearLayout>
 

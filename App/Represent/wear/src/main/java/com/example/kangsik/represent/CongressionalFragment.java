@@ -35,7 +35,7 @@ public class CongressionalFragment extends CardFragment {
 
         Bundle args = new Bundle();
         args.putCharSequence("CardFragment_title", representative.title+". "+ representative.firstName.concat(" ").concat(representative.lastName));
-        args.putCharSequence("CardFragment_text", representative.party+"\\"+representative.email+"\\"+representative.website);
+        args.putCharSequence("CardFragment_text", representative.party+"\n"+representative.email+"\n"+representative.website);
         this.setArguments(args);
     }
 
@@ -46,12 +46,15 @@ public class CongressionalFragment extends CardFragment {
         View view = super.onCreateContentView(inflater, container, savedInstanceState);
         TextView title = (TextView) view.findViewById(android.support.wearable.R.id.title);
 
+
         title.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 System.out.println("======IN CONG_FRAG====");
                 System.out.println(representative.bid);
                 System.out.println("======IN CONG_FRAG====");
+
+
                 Intent intent = new Intent(getActivity(), WatchToPhoneService.class);
                 intent.putExtra("BID", representative.bid);
                 getActivity().startService(intent);

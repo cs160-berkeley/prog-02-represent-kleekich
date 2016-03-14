@@ -27,7 +27,7 @@ import java.util.List;
                     .addConnectionCallbacks(this)
                     .build();
             //and actually connect it
-            mWatchApiClient.connect();
+
         }
 
         @Override
@@ -68,6 +68,7 @@ import java.util.List;
             Bundle extras =intent.getExtras();
             //location = extras.getString("JSON_STRING_LOCATION");
             Boolean shake= extras.getBoolean("SHAKE");
+            System.out.println("SHACK SHACK");
             new Thread(new Runnable() {
                 @Override
                 public void run() {

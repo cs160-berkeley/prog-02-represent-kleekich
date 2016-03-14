@@ -159,7 +159,7 @@ public class MainActivity extends FragmentActivity {
     }
     public void launchPresidentialVoteActivity(View v) {
         Intent intent = new Intent(getBaseContext(), PresidentialVoteActivity.class);
-        intent.putExtra("LOCATION", selectedLocation);
+        intent.putExtra("WATCH_TO_CONGRESSIONAL", true);
 
         startActivity(intent);
     }

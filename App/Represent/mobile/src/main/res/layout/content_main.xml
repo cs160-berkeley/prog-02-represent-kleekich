@@ -18,9 +18,9 @@
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="Welcome To Represent!"
         android:id="@+id/textView"
+        android:layout_marginBottom="29dp"
         android:layout_above="@+id/imageView2"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="18dp" />
+        android:layout_centerHorizontal="true" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -28,8 +28,9 @@
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="Find Representatives"
         android:id="@+id/textView2"
-        android:layout_centerVertical="true"
-        android:layout_alignParentStart="true" />
+        android:layout_above="@+id/currentLocationButton"
+        android:layout_alignParentStart="false"
+        android:layout_marginBottom="145dp" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -37,9 +38,9 @@
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="By ZIP Code:"
         android:id="@+id/textView3"
-        android:layout_marginTop="25dp"
-        android:layout_below="@+id/textView2"
-        android:layout_alignParentStart="true" />
+        android:layout_alignTop="@+id/textView2"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="49dp" />
 
     <EditText
         android:layout_width="wrap_content"
@@ -48,6 +49,7 @@
         android:ems="10"
         android:id="@+id/zipCodeInput"
         android:width="100dp"
+        android:text="94704"
         android:layout_alignTop="@+id/textView3"
         android:layout_toEndOf="@+id/textView3" />
 
@@ -58,7 +60,7 @@
         android:id="@+id/enterButton"
         android:onClick = "sendMessage"
         android:layout_below="@+id/zipCodeInput"
-        android:layout_alignEnd="@+id/imageView2" />
+        android:layout_alignEnd="@+id/zipCodeInput" />
 
     <Button
         android:layout_width="wrap_content"
@@ -66,20 +68,22 @@
         android:text="Use Current Location"
         android:id="@+id/currentLocationButton"
         android:onClick = "sendMessage"
-        android:layout_marginBottom="39dp"
+        android:layout_marginBottom="43dp"
         android:layout_marginLeft="39dp"
         android:layout_marginRight="39dp"
+        android:background="#5BC0EB"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
         android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:background="#5BC0EB"/>
+        android:layout_centerHorizontal="true" />
 
     <ImageView
         android:layout_width="100dp"
         android:layout_height="100dp"
         android:id="@+id/imageView2"
-        android:layout_marginBottom="27dp"
         android:src="@drawable/hat"
         android:layout_above="@+id/textView2"
-        android:layout_centerHorizontal="true" />
+        android:layout_alignStart="@+id/enterButton"
+        android:layout_marginBottom="24dp" />
 
 </RelativeLayout>

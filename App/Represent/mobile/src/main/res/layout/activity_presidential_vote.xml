@@ -3,23 +3,25 @@
     android:layout_width="match_parent" android:layout_height="match_parent" android:orientation="vertical"
     android:weightSum="1"
     android:background="#b0aac2">
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="&lt; Back"
-        android:id="@+id/congressionalViewButton"
-         />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="@string/voteViewTitle"
-        android:id="@+id/title"
-        android:layout_marginEnd="52dp" />
 
     <LinearLayout
         android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="left">
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="&lt; Back"
+            android:id="@+id/congressionalViewButton"
+             />
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
@@ -27,33 +29,67 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceLarge"
-            android:id="@+id/districtTextView"
-            android:text="county" />
+            android:text="@string/voteViewTitle"
+            android:id="@+id/title"
+            android:layout_marginTop="30dp"
+            android:layout_gravity="center_horizontal" />
+
+        <ImageView
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:id="@+id/imageView3"
+            android:src="@drawable/symbol"
+            android:layout_gravity="center_horizontal" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:id="@+id/districtTextView"
+            android:text="county"
+            android:layout_marginLeft="20dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
             android:id="@+id/stateTextView"
             android:text="state" />
     </LinearLayout>
 
     <LinearLayout
         android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="20dp">
 
         <LinearLayout
             android:orientation="vertical"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
 
+            <ImageView
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                android:id="@+id/imageView1"
+                android:src="@drawable/obama"
+                android:layout_marginLeft="10dp" />
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:id="@+id/personATextView"
-                android:text="Obama" />
+                android:text="Barack Obama"
+                android:layout_marginLeft="10dp" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -61,7 +97,8 @@
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:id="@+id/percentATextView"
 
-                android:text="PercentA" />
+                android:text="00.0%"
+                android:layout_marginLeft="55dp" />
 
         </LinearLayout>
 
@@ -70,20 +107,28 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent">
 
+            <ImageView
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                android:id="@+id/imageView2"
+                android:src="@drawable/romney"/>
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:id="@+id/personBTextView"
-                android:text="Romney" />
+                android:text="Mitt Romney"
+                android:layout_marginLeft="15dp" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:id="@+id/percentBTextView"
-                android:text="PercentB" />
-        </LinearLayout>
+                android:text="00.0%"
+                android:layout_marginLeft="52dp" />
+        </LinearLayout>x
 
     </LinearLayout>
 

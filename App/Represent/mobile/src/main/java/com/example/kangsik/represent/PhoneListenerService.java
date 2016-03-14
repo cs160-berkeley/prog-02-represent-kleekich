@@ -9,6 +9,7 @@ import com.google.android.gms.wearable.WearableListenerService;
 
 import java.nio.charset.StandardCharsets;
 
+
 /**
  * Created by Kangsik on 3/3/16.
  */
@@ -21,11 +22,6 @@ public class PhoneListenerService extends WearableListenerService {
 
     @Override
     public void onMessageReceived(MessageEvent messageEvent) {
-        Log.d("T", "in PhoneListenerService, got: " + messageEvent.getPath());
-        Log.d("T", "in PhoneListenerService, got: " + messageEvent.getPath());
-        Log.d("T", "in PhoneListenerService, got: " + messageEvent.getPath());
-        Log.d("T", "in PhoneListenerService, got: " + messageEvent.getPath());
-        Log.d("T", "in PhoneListenerService, got: " + messageEvent.getPath());
         Intent intent;
 
         if( messageEvent.getPath().equalsIgnoreCase(WATCH_TO_DETAIL) ) {
