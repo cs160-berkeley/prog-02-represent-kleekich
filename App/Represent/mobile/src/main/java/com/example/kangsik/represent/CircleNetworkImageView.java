@@ -51,18 +51,7 @@ public class CircleNetworkImageView extends CircleImageView {
     public CircleNetworkImageView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
     }
-    /**
-     * Sets URL of the image that should be loaded into this view. Note that calling this will
-     * immediately either set the cached image (if available) or the default image specified by
-     * {@link NetworkImageView#setDefaultImageResId(int)} on the view.
-     *
-     * NOTE: If applicable, {@link NetworkImageView#setDefaultImageResId(int)} and
-     * {@link NetworkImageView#setErrorImageResId(int)} should be called prior to calling
-     * this function.
-     *
-     * @param url The URL that should be loaded into this ImageView.
-     * @param imageLoader ImageLoader that will be used to make the request.
-     */
+
     public void setImageUrl(String url, ImageLoader imageLoader) {
         mUrl = url;
         mImageLoader = imageLoader;

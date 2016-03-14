@@ -29,10 +29,10 @@
         android:layout_width="328dp"
         android:layout_height="wrap_content">
 
-        <ImageView
-            android:layout_width="200dp"
-            android:layout_height="200dp"
-            android:id="@+id/imageView"
+        <com.android.volley.toolbox.NetworkImageView
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:id="@+id/imageViewPicture"
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
             android:layout_gravity="center_horizontal|top" />
@@ -85,7 +85,12 @@
             android:layout_toStartOf="@+id/emailTextView"
             android:text="6"
             android:id="@+id/websiteTextView" />
-
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toStartOf="@+id/emailTextView"
+            android:text="6"
+            android:id="@+id/tweetTextView" />
         <LinearLayout
             android:orientation="horizontal"
             android:layout_width="match_parent"

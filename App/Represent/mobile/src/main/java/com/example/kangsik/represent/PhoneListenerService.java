@@ -6,10 +6,6 @@ import android.util.Log;
 
 import com.google.android.gms.wearable.MessageEvent;
 import com.google.android.gms.wearable.WearableListenerService;
-import com.google.gson.Gson;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonParser;
 
 import java.nio.charset.StandardCharsets;
 
@@ -23,19 +19,21 @@ public class PhoneListenerService extends WearableListenerService {
     private static final String WATCH_TO_CONGRESSIONAL = "/WATCH_TO_CONGRESSIONAL";
 
 
-
-
-
     @Override
     public void onMessageReceived(MessageEvent messageEvent) {
         Log.d("T", "in PhoneListenerService, got: " + messageEvent.getPath());
-        if( messageEvent.getPath().equalsIgnoreCase(WATCH_TO_DETAIL) ) {
+        Log.d("T", "in PhoneListenerService, got: " + messageEvent.getPath());
+        Log.d("T", "in PhoneListenerService, got: " + messageEvent.getPath());
+        Log.d("T", "in PhoneListenerService, got: " + messageEvent.getPath());
+        Log.d("T", "in PhoneListenerService, got: " + messageEvent.getPath());
+        Intent intent;
 
+        if( messageEvent.getPath().equalsIgnoreCase(WATCH_TO_DETAIL) ) {
+            intent = new Intent(getBaseContext(), DetailActivity.class);
             String bid = new String(messageEvent.getData(), StandardCharsets.UTF_8);
-            System.out.println("======IN PHONE_LISTENER====");
+            System.out.println("======IN PHONE_LISTENER_DETAIL====");
             System.out.println(bid);
-            System.out.println("======IN PHONE_LISTENER====");
-            Intent intent = new Intent(getBaseContext(), DetailActivity.class );
+            System.out.println("======IN PHONE_LISTENER_DETAIL====");
             Bundle extras = new Bundle();
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             //you need to add this flag since you're starting a new activity from a service
@@ -45,16 +43,19 @@ public class PhoneListenerService extends WearableListenerService {
             startActivity(intent);
 
         } else if (messageEvent.getPath().equalsIgnoreCase(WATCH_TO_CONGRESSIONAL)){
-            Intent congressionalIntent = new Intent(getBaseContext(), CongressionalActivity.class );
-            Bundle extras = new Bundle();
-            congressionalIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            intent = new Intent(getBaseContext(), CongressionalActivity.class );
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             //you need to add this flag since you're starting a new activity from a service
+            /*
             String location = new String(messageEvent.getData(), StandardCharsets.UTF_8);
-
             congressionalIntent.putExtra("RANDOM_LOCATION", location);
-            congressionalIntent.putExtra("FROM_WATCH_SERVICE", true);
+            */
+            System.out.println("======IN PHONE_LISTENER_CONGRESSIONAL====");
 
-            startActivity(congressionalIntent);
+            System.out.println("======IN PHONE_LISTENER_CONGRESSIONAL====");
+            intent.putExtra("FROM_WATCH_SERVICE", true);
+
+            startActivity(intent);
         }
 
     }

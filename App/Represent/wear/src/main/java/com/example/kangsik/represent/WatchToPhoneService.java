@@ -9,6 +9,28 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.wearable.Node;
 import com.google.android.gms.wearable.NodeApi;
 import com.google.android.gms.wearable.Wearable;
+import android.app.Service;
+import android.content.Intent;
+import android.os.AsyncTask;
+import android.os.Bundle;
+import android.os.IBinder;
+import android.util.Log;
+
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.common.api.PendingResult;
+import com.google.android.gms.common.api.Result;
+import com.google.android.gms.common.api.ResultCallback;
+import com.google.android.gms.common.api.Status;
+import com.google.android.gms.wearable.CapabilityApi;
+import com.google.android.gms.wearable.CapabilityInfo;
+import com.google.android.gms.wearable.MessageApi;
+import com.google.android.gms.wearable.Node;
+import com.google.android.gms.wearable.NodeApi;
+import com.google.android.gms.wearable.Wearable;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,6 +42,8 @@ public class WatchToPhoneService extends Service implements GoogleApiClient.Conn
     private static final String TAG = "myMessage";
     private GoogleApiClient mWatchApiClient;
     private List<Node> nodes = new ArrayList<>();
+    final Service _this = this;
+
 
     @Override
     public void onCreate() {
@@ -29,8 +53,7 @@ public class WatchToPhoneService extends Service implements GoogleApiClient.Conn
                 .addApi( Wearable.API )
                 .addConnectionCallbacks(this)
                 .build();
-        //and actually connect it
-        mWatchApiClient.connect();
+
     }
 
     @Override
@@ -64,23 +87,22 @@ public class WatchToPhoneService extends Service implements GoogleApiClient.Conn
 
             }
         }).start();
+        _this.stopSelf();
+
     }
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         Bundle extras = intent.getExtras();
         final String bid = extras.getString("BID");
-        System.out.println("======IN WATCH_TO_PHONE====");
-        System.out.println(bid);
-        System.out.println("======IN WATCH_TO_PHONE====");
         new Thread(new Runnable() {
             @Override
             public void run() {
-
+                System.out.println("======IN WATCH_TO_PHONE2====");
+                System.out.println(bid);
+                System.out.println("======IN WATCH_TO_PHONE2====");
                 mWatchApiClient.connect();
-                //now that you're connected, send a massage with the cat name
                 sendMessage("/WATCH_TO_DETAIL", bid);
-
             }
         }).start();
 

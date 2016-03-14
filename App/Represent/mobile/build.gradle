@@ -37,7 +37,7 @@ android {
 
 dependencies {
     compile 'com.google.maps:google-maps-services:0.1.7'
-    compile 'com.google.android.gms:play-services:7.5.0'
+    compile 'com.google.android.gms:play-services:8.1.0'
     compile fileTree(dir: 'libs', include: ['*.jar'])
     wearApp project(':wear')
     testCompile 'junit:junit:4.12'

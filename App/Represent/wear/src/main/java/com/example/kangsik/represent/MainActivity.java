@@ -89,35 +89,12 @@ public class MainActivity extends FragmentActivity {
                 mAccel = mAccel * 0.9f + delta; // perform low-cut filter
 
                 if (mAccel > 12) {
-                    ArrayList<String> randomLatitudes = new ArrayList<String>();
-                    ArrayList<String> randomLongitudes = new ArrayList<String>();
-                    ArrayList<String> randomZipCodes = new ArrayList<String>();
-
-                    randomZipCodes.add("41144");
-                    randomZipCodes.add("41616");
-                    randomZipCodes.add("76528");
-                    randomLatitudes.add("38.53936002");
-                    randomLongitudes.add("-82.87818955");
-                    randomLatitudes.add("37.30998023");
-                    randomLongitudes.add("-82.87818955");
-                    randomLatitudes.add("31.30998023");
-                    randomLongitudes.add("-97.5721608");
-
-
-                    Random r = new Random();
-                    int randomIndex = r.nextInt(3);
-                    String randomZipCode = randomZipCodes.get(randomIndex);
-                    String randomLatitude = randomLatitudes.get(randomIndex);
-                    String randomLongitude = randomLongitudes.get(randomIndex);
 
                     Intent sendIntent = new Intent(getBaseContext(), WatchToPhoneCongressionalService.class);
-                    RandomLocation randomLocation = new RandomLocation(randomLatitude,randomLongitude,randomZipCode);
-                    Gson gson = new Gson();
-                    String jsonStringLocation = gson.toJson(randomLocation);
-                    sendIntent.putExtra("JSON_STRING_LOCATION", jsonStringLocation);
+                    sendIntent.putExtra("SHAKE", true);
                     getBaseContext().startService(sendIntent);
-
                     reset();
+
                 }
             }
 

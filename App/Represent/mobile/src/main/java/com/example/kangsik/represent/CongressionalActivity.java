@@ -21,9 +21,17 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
-import com.google.gson.JsonArray;
+
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import com.twitter.sdk.android.Twitter;
+import com.twitter.sdk.android.core.AppSession;
+import com.twitter.sdk.android.core.TwitterAuthConfig;
+import com.twitter.sdk.android.core.TwitterCore;
+import com.twitter.sdk.android.core.TwitterException;
+
+import com.twitter.sdk.android.core.Callback;
+import com.twitter.sdk.android.core.Result;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -35,11 +43,13 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Random;
+
+import io.fabric.sdk.android.Fabric;
 
 public class CongressionalActivity extends Activity {
     private Context cCtx;
     private String selectedLocation;
-    private ArrayAdapter repAdapter;
     private ListView repListView;
     private String zipcode;
     private String longitude;
@@ -97,14 +107,27 @@ public class CongressionalActivity extends Activity {
         Boolean fromWatchService= extras.getBoolean("FROM_WATCH_SERVICE");
         if(fromWatchService){
 
-            String jsonStringObject = extras.getString("LOCATION");
-            Gson gson = new Gson();
-            JsonParser parser = new JsonParser();
-            JsonObject resultJsonLocation = parser.parse(jsonStringObject).getAsJsonObject();
-            RandomLocation randomLocation = gson.fromJson(resultJsonLocation, RandomLocation.class);
-            zipcode = randomLocation.zipcode;
-            latitude = randomLocation.lat;
-            longitude = randomLocation.lng;
+            //Random Data
+            ArrayList<String> randomLatitudes = new ArrayList<String>();
+            ArrayList<String> randomLongitudes = new ArrayList<String>();
+            ArrayList<String> randomZipCodes = new ArrayList<String>();
+
+            randomZipCodes.add("41144");
+            randomZipCodes.add("41616");
+            randomZipCodes.add("76528");
+            randomLatitudes.add("38.53936002");
+            randomLongitudes.add("-82.87818955");
+            randomLatitudes.add("37.30998023");
+            randomLongitudes.add("-82.87818955");
+            randomLatitudes.add("31.30998023");
+            randomLongitudes.add("-97.5721608");
+
+            Random r = new Random();
+            int randomIndex = r.nextInt(3);
+
+            zipcode = randomZipCodes.get(randomIndex);
+            latitude = randomLatitudes.get(randomIndex);
+            longitude = randomLongitudes.get(randomIndex);
 
 
             textViewSearchMode.setText("Random ZIP: "+ zipcode);
@@ -204,8 +227,29 @@ public class CongressionalActivity extends Activity {
 
                         //FOR ADAPTER
 
-                        repAdapter = new MyAdapter(CongressionalActivity.this, reps);
-                        repListView.setAdapter(repAdapter);
+
+                        final MyAdapter repAdapter = new MyAdapter(CongressionalActivity.this, reps);
+
+                        TwitterAuthConfig authConfig = new TwitterAuthConfig(TWITTER_KEY,
+                                TWITTER_SECRET);
+                        Fabric.with(CongressionalActivity.this, new Twitter(authConfig));
+                        TwitterCore.getInstance().logInGuest(new Callback<AppSession>() {
+                            @Override
+                            public void success(Result<AppSession> result) {
+                                AppSession guestAppSession = result.data;
+                                repAdapter.guestAppSession = guestAppSession;
+                                repListView.setAdapter(repAdapter);
+                            }
+
+                            @Override
+                            public void failure(TwitterException exception) {
+                                // unable to get an AppSession with guest auth
+                                throw exception;
+                            }
+                        });
+
+
+
                         repListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                             @Override
                             public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
@@ -270,7 +314,7 @@ public class CongressionalActivity extends Activity {
             }
         }
 
-        // When user clicks button, calls AsyncTask.
+        // When  clicks button, calls AsyncTask.
         // Before attempting to fetch the URL, makes sure that there is a network connection.
         repListView = (ListView) findViewById(R.id.listViewRepresentatives);
 

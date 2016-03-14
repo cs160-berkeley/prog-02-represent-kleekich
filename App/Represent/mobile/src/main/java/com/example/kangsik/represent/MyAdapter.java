@@ -5,7 +5,6 @@ package com.example.kangsik.represent;
  */
 
 import android.app.Activity;
-import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
@@ -20,6 +19,7 @@ import android.util.LruCache;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.ImageLoader;
+import com.android.volley.toolbox.NetworkImageView;
 import com.android.volley.toolbox.Volley;
 
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -32,6 +32,7 @@ import com.twitter.sdk.android.core.Result;
 
 
 
+
 import retrofit.http.GET;
 import retrofit.http.Query;
 
@@ -40,23 +41,6 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
-import android.app.Activity;
-import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.drawable.Drawable;
-
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.ImageButton;
-import android.widget.ImageView;
-import android.widget.TextView;
-
-import java.io.InputStream;
-import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
 
 
 public class MyAdapter extends ArrayAdapter<Representative> {
@@ -92,21 +76,21 @@ public class MyAdapter extends ArrayAdapter<Representative> {
     public View getView(int position, View convertView, ViewGroup parent) {
 
         LayoutInflater theInflater = LayoutInflater.from(getContext());
-
         View theView = theInflater.inflate(R.layout.row_layout, parent, false);
         //View rowView=inflater.inflate(R.layout.congressional_list_view_cell, null, true);
 
         final Representative rep = getItem(position);
 
         //ImageView in row
-        ImageView pictureView = (ImageView) theView.findViewById(R.id.imageViewPicture);
-        //pictureView.setImageResource(R.drawable.slide);
+
+
 
         //textView in row
         TextView nameTextView = (TextView) theView.findViewById(R.id.nameTextView);
         TextView partyTextView = (TextView) theView.findViewById(R.id.partyTextView);
         TextView emailTextView = (TextView) theView.findViewById(R.id.emailTextView);
         TextView websiteTextView = (TextView) theView.findViewById(R.id.websiteTextView);
+
 
 
         String name = rep.title +". "+ rep.firstName + " "+ rep.lastName;
@@ -120,28 +104,19 @@ public class MyAdapter extends ArrayAdapter<Representative> {
         emailTextView.setText(email);
         websiteTextView.setText(website);
 
-
-        // update Tweet view if twittter ID is not null
-        /*
         if (rep.twitterId != null) {
-            updateTweetViewAndImageView(rowView, rep.twitterId);
+            updateTweetViewAndImageView(theView, rep.twitterId);
         } else {
-            // if no twitter account, tweet view
-            ImageView twitterLogoView = (ImageView) rowView.findViewById(R.id.twitterLogo);
-            twitterLogoView.setImageDrawable(null);
-            rowView.findViewById(R.id.tweetView).setVisibility(View.GONE);
-        }
 
-        */
+        }
         return theView;
 
     }
 
     public void updateTweetViewAndImageView(View rowView, String twitterId) {
         final TextView tweetTextView = (TextView) rowView.findViewById(R.id.tweetTextView);
-        //final CircleNetworkImageView imageView = (CircleNetworkImageView) rowView.findViewById(R.id.imageViewPicture);
+        final NetworkImageView profImage = (NetworkImageView) rowView.findViewById(R.id.imageViewPicture);
         //ImageView in row
-        //ImageView pictureView = (ImageView) rowView.findViewById(R.id.imageViewPicture);
         new UsersTwitterApiClient(guestAppSession).getUsersService().show(null, twitterId, true,
                 new Callback<User>() {
                     @Override
@@ -151,9 +126,9 @@ public class MyAdapter extends ArrayAdapter<Representative> {
                         String imageURL = parseTwitterImageURLForOriginalImage(result.data.profileImageUrl);
 
                         tweetTextView.setText(tweet);
-
                         //extract profile photo
-                        //imageView.setImageUrl(imageURL,mImageLoader);
+                        profImage.setImageUrl(imageURL, mImageLoader);
+
                     }
                     @Override
                     public void failure(TwitterException exception) {

@@ -5,17 +5,23 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
+import android.graphics.Bitmap;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
+import android.util.LruCache;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.android.volley.RequestQueue;
+import com.android.volley.toolbox.ImageLoader;
+import com.android.volley.toolbox.NetworkImageView;
+import com.android.volley.toolbox.Volley;
 import com.twitter.sdk.android.Twitter;
 import com.twitter.sdk.android.core.AppSession;
 import com.twitter.sdk.android.core.TwitterApiClient;
@@ -29,8 +35,9 @@ import com.twitter.sdk.android.core.models.User;
 import com.twitter.sdk.android.core.services.StatusesService;
 import com.twitter.sdk.android.core.Callback;
 import com.twitter.sdk.android.core.Result;
-import com.twitter.sdk.android.tweetui.TweetUtils;
-import com.twitter.sdk.android.tweetui.TweetView;
+
+
+
 
 import retrofit.http.GET;
 import retrofit.http.Query;
@@ -54,6 +61,9 @@ import io.fabric.sdk.android.Fabric;
 
 
 public class DetailActivity extends Activity {
+    private ImageLoader mImageLoader;
+    private RequestQueue mRequestQueue;
+
     //VIEWS
     ImageView imageView;
     TextView nameTextView;
@@ -63,6 +73,7 @@ public class DetailActivity extends Activity {
     TextView recentBillTextView;
     TextView emailTextView;
     TextView websiteTextView;
+    TextView tweetTextView;
     private Button buttonMain;
     private Button buttonCongressional;
 
@@ -250,7 +261,18 @@ public class DetailActivity extends Activity {
         stringUrlRepresentative = "http://congress.api.sunlightfoundation.com/legislators?bioguide_id="+bid+"&apikey="+API_KEY;
         stringUrlCommittee = "http://congress.api.sunlightfoundation.com/committees?member_ids=" + bid + "&apikey=" + API_KEY;
         stringUrlBill = "http://congress.api.sunlightfoundation.com/bills?sponsor_id="+ bid +"&apikey="+API_KEY;
-
+        //For Image
+        //For images
+        mRequestQueue = Volley.newRequestQueue(getBaseContext());
+        mImageLoader = new ImageLoader(mRequestQueue, new ImageLoader.ImageCache() {
+            private final LruCache<String, Bitmap> mCache = new LruCache<String, Bitmap>(10);
+            public void putBitmap(String url, Bitmap bitmap) {
+                mCache.put(url, bitmap);
+            }
+            public Bitmap getBitmap(String url) {
+                return mCache.get(url);
+            }
+        });
 
 
         ConnectivityManager connMgr = (ConnectivityManager)getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -270,29 +292,17 @@ public class DetailActivity extends Activity {
             @Override
             public void success(Result<AppSession> result) {
                 AppSession guestAppSession = result.data;
+                final NetworkImageView profImage = (NetworkImageView) findViewById(R.id.imageViewPicture);
                 new UsersTwitterApiClient(guestAppSession).getUsersService().show(null, twitterId, true,
                         new Callback<User>() {
                             @Override
                             public void success(Result<User> result) {
                                 // extract tweet text
                                 String tweet = result.data.status.text;
-                                long tweetId = result.data.status.id;
-                                //R.string.tweet_id = (int)tweetId;
-                                ///Resources res = getResources();
-                                //String
-                                System.out.println(tweetId);
-                                System.out.println("========================");
-                                System.out.println("TWEET_ID: "+ tweetId);
-                                System.out.println("TWITTER_ID: "+twitterId);
-                                System.out.println("========================");
-                                /*
-                                final LinearLayout myLayout
-                                        = (LinearLayout) findViewById(R.id.my_tweet_layout);
-                                myLayout.addView(new TweetView(DetailActivity.this, ));
-                                */
-                                final List<Long> tweetIds = Arrays.asList(tweetId);
-                                //final LinearLayout myLayout = (LinearLayout) findViewById(R.id.my_tweet_layout);
-
+                                tweetTextView.setText(tweet);
+                                String imageURL = parseTwitterImageURLForOriginalImage(result.data.profileImageUrl);
+                                //extract profile photo
+                                profImage.setImageUrl(imageURL, mImageLoader);
                             }
 
                             @Override
@@ -341,15 +351,13 @@ public class DetailActivity extends Activity {
         recentBillTextView = (TextView) findViewById(R.id.recentBillTextView);
         emailTextView = (TextView) findViewById(R.id.emailTextView);
         websiteTextView = (TextView) findViewById(R.id.websiteTextView);
+        tweetTextView = (TextView) findViewById(R.id.tweetTextView);
 
-        imageView.setImageResource(R.drawable.slide);
-
-
-
-
-
-
-
+    }
+    private String parseTwitterImageURLForOriginalImage(String url) {
+        String regexExprMatch = "_[a-z]+?(?=\\.)";
+        String newUrl = url.replaceAll(regexExprMatch, "");
+        return newUrl;
     }
 
 }
