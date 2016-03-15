@@ -1,6 +1,6 @@
 # PROG 02: Represent!
 
-Briefly describe your app here.
+Represent mobile application let you search legislators by ZIP code or curent location. You can see detail of individual, and also you can view 2012 presidential vote result related to the location. Also, it is paired with smartwatch which automatically loads the list of legislators.
 
 ## Authors
 
