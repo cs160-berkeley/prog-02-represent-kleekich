@@ -12,7 +12,7 @@ See [Represent walk through video] (https://youtu.be/5hg_x9rILys)
 
 ## Screenshots
 
-<img src="screenshots/mainView.png" height="400" alt="Screenshot"/>
+<img src="screenshots/newMain.png" height="400" alt="Screenshot"/>
 
 
 ## Description
