@@ -8,7 +8,7 @@ Kangsik Kevin Lee ([kleekich@berkeley.edu](mailto:kleekich@berkeley.edu))
 
 ## Demo Video
 
-See [your demo video title here] (https://link_to_your_video)
+See [Represent walk through video] (https://link_to_your_video)
 
 ## Screenshots
 
